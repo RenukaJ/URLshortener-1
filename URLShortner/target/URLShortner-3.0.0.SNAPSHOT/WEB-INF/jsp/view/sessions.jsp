@@ -1,4 +1,4 @@
-<%@ page import="java.util.List" %>
+<%@ page import="java.util.List"%>
 <%!
     private static String toString(long timeInterval)
     {
@@ -17,15 +17,18 @@
 %>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Customer Support</title>
-    </head>
-    <body>
-        <a href="<c:url value="/login?logout" />">Logout</a>
-        <h2>Sessions</h2>
-        There are a total of <%= numberOfSessions %> active sessions in this
-        application.<br /><br />
-        <%
+<head>
+<title>Customer Support</title>
+</head>
+<body>
+	<a href="<c:url value="/login?logout" />">Logout</a>
+	<h2>Sessions</h2>
+	There are a total of
+	<%= numberOfSessions %>
+	active sessions in this application.
+	<br />
+	<br />
+	<%
             long timestamp = System.currentTimeMillis();
             for(HttpSession aSession : sessions)
             {
@@ -38,5 +41,5 @@
                 out.println(" ago<br />");
             }
         %>
-    </body>
+</body>
 </html>

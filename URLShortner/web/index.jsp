@@ -1,1 +1,1 @@
-<c:redirect url="/tickets" />
+<c:redirect url="/home" />

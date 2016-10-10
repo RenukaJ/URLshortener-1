@@ -30,48 +30,18 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-toggle="modal" data-target=".login-modal" >Login</a></li>
-        <li><a href="#" data-toggle="modal" data-target=".signup-modal" >SignUp</a>
+        <li><a href="#" data-toggle="modal" data-target=".login-modal" >Logout</a></li>
+        <li>${username}</li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
+<h1> Welcome ${username}</h1>
 
-<div class="modal fade login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <h1>Login</h1>
-      <%-- 
-       <%
-            if(((Boolean)request.getAttribute("loginFailed")))
-            {
-                %>
-	<b>The username or password you entered are not correct. Please try
-		again.</b>
-	<br />
-	<br />
-	<%
-            }
-        %>
-        --%>
-     
-	<form method="POST" action="<c:url value="/login" />">
-		Username<br /> <input type="text" name="username" /><br />
-		<br /> Password<br /> <input type="password" name="password" /><br />
-		<br /> <input type="submit" value="Log In" />
-	</form>
-    </div>
-  </div>
-</div>
 
-<div class="modal fade signup-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <h1>Signup</h1>
-    </div>
-  </div>
-</div>
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

@@ -24,8 +24,23 @@ public class HomePageServlet extends HttpServlet{
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException
 	    {
-	        HttpSession session = request.getSession();
-	       
+		  HttpSession session = request.getSession();
+		  
+		  //ToDo: If user clicks on back button and is currently logged in, then Home page should not be shown
+		  
+		  if(request.getSession().getAttribute("username") != null)
+	        {
+	            response.sendRedirect("userprofile");
+	            return;
+	        }
+		  if(request.getParameter("logout") != null)
+	        {
+	            session.invalidate();
+	            response.sendRedirect("home");
+	            return;
+	        }
+
+		   
 	        request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
 	               .forward(request, response);
 	    }

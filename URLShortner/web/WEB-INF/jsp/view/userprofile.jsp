@@ -1,3 +1,8 @@
+<%@ page import="java.util.Map"%>
+<%@page import="com.cpsc476.urlshortner.URLHandler"%>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -32,7 +37,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>" >Logout</a></li>
         
-        <li>${username}</li>
+        <li><h3>${username}</h3></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
@@ -45,13 +50,27 @@
   <div class="col-xs-6">
   <form method="POST" action="<c:url value="/userprofile"><c:param name="action" value="shortenURL" /></c:url>">
   <div class="input-group">
-  <input type="text" class="form-control" placeholder="URL" aria-describedby="basic-addon2">
-  <span class="input-group-addon" id="basic-addon"></span>
+  <input type="text" class="form-control" placeholder="URL" aria-describedby="basic-addon2" name="longUrl">
+  <span class="input-group-addon" id="basic-addon"><input type="submit" value="Submit" /></span>
   </div>
   </form>
   </div>
   <div class="col-xs-3"></div>
 </div>
+
+
+<c:choose>
+    <c:when test="${links ne null}">
+        <c:forEach items="${links}" var="link">
+    Key = ${link.key}, value = ${link.value}<br>
+   </c:forEach>
+        <br />
+    </c:when>    
+    <c:otherwise>
+        <h1> Data does not exists</h1> 
+        <br />
+    </c:otherwise>
+</c:choose>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

@@ -17,7 +17,7 @@ import java.util.Map;
 )
 public class LoginServlet extends HttpServlet
 {
-    private static final Map<String, String> userDatabase = new Hashtable<>();
+    protected static final Map<String, String> userDatabase = new Hashtable<>();
 
     static {
         userDatabase.put("Nicholas", "password");

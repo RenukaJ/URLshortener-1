@@ -26,6 +26,7 @@ public class TicketServlet extends HttpServlet
     private volatile int TICKET_ID_SEQUENCE = 1;
 
     private Map<Integer, Ticket> ticketDatabase = new LinkedHashMap<>();
+   
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,6 +41,7 @@ public class TicketServlet extends HttpServlet
         String action = request.getParameter("action");
         if(action == null)
             action = "list";
+        
         switch(action)
         {
             case "create":

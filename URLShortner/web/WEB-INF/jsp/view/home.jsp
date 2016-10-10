@@ -42,20 +42,6 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <h1>Login</h1>
-      <%-- 
-       <%
-            if(((Boolean)request.getAttribute("loginFailed")))
-            {
-                %>
-	<b>The username or password you entered are not correct. Please try
-		again.</b>
-	<br />
-	<br />
-	<%
-            }
-        %>
-        --%>
-     
 	<form method="POST" action="<c:url value="/login" />">
 		Username<br /> <input type="text" name="username" /><br />
 		<br /> Password<br /> <input type="password" name="password" /><br />
@@ -65,6 +51,21 @@
   </div>
 </div>
 
+
+<div class="modal fade signup-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <h1>Login</h1>
+	<form method="POST" action="<c:url value="/signup" />">
+		Username<br /> <input type="text" name="new_username" /><br />
+		<br /> Password<br /> <input type="password" name="new_password" /><br />
+		<br /> <input type="submit" value="Sign Up" />
+	</form>
+    </div>
+  </div>
+</div>
+
+
 <div class="modal fade signup-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -72,6 +73,19 @@
     </div>
   </div>
 </div>
+
+
+<div class="jumbotron">
+  
+  <div class="input-group">
+  <input type="text" class="form-control" placeholder="Shortened URL" aria-describedby="basic-addon2">
+  <span class="input-group-addon" id="basic-addon">URL</span>
+  </div>
+  
+</div>
+
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

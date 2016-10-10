@@ -41,7 +41,8 @@ public class LoginServlet extends HttpServlet
         }
         else if(session.getAttribute("username") != null)
         {
-            response.sendRedirect("userprofile");
+            
+        	response.sendRedirect("userprofile");
             return;
         }
 
@@ -69,7 +70,7 @@ public class LoginServlet extends HttpServlet
             request.setAttribute("loginFailed", true);
             request.getRequestDispatcher("/WEB-INF/jsp/view/InvalidLogin.jsp")
                    .forward(request, response);
-            System.out.println("OOPs");
+            
         }
         else
         {

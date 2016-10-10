@@ -30,7 +30,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" data-toggle="modal" data-target=".login-modal" >Logout</a></li>
+        <li><a href="<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>" >Logout</a></li>
+        
         <li>${username}</li>
       </ul>
     </div><!-- /.navbar-collapse -->

@@ -31,18 +31,18 @@
     
       <ul class="nav navbar-nav navbar-right">
         <li><a href="#" data-toggle="modal" data-target=".login-modal" >Login</a></li>
-        <li><a href="#" data-toggle="modal" data-target=".signup-modal" >SignUp</a>
+        <li><a href="#" data-toggle="modal" data-target=".signup-modal" >SignUp</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 
-<div class="modal fade login-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade login-modal" tabindex="-1" role="dialog" aria-labelledby="myLoginModalLabel">
+  <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
       <h1>Login</h1>
-	<form method="POST" action="<c:url value="/login" />">
+	<form method="POST" action="<c:url value="/login"><c:param name="action" value="login" /></c:url>">
 		Username<br /> <input type="text" name="username" /><br />
 		<br /> Password<br /> <input type="password" name="password" /><br />
 		<br /> <input type="submit" value="Log In" />
@@ -52,11 +52,11 @@
 </div>
 
 
-<div class="modal fade signup-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
+<div class="modal fade signup-modal" tabindex="-1" role="dialog" aria-labelledby="mySignupModalLabel">
+  <div class="modal-dialog modal-md" role="document">
     <div class="modal-content">
-      <h1>Login</h1>
-	<form method="POST" action="<c:url value="/signup" />">
+      <h1>SignUp</h1>
+	<form method="POST" action="<c:url value="/login"><c:param name="action" value="signup" /></c:url>">
 		Username<br /> <input type="text" name="new_username" /><br />
 		<br /> Password<br /> <input type="password" name="new_password" /><br />
 		<br /> <input type="submit" value="Sign Up" />
@@ -65,14 +65,6 @@
   </div>
 </div>
 
-
-<div class="modal fade signup-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <h1>Signup</h1>
-    </div>
-  </div>
-</div>
 
 
 <div class="jumbotron">

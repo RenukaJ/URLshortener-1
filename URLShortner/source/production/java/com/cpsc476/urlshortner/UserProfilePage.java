@@ -18,12 +18,7 @@ public class UserProfilePage extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-		
-		
-		
-        
-        
-        String action = request.getParameter("action");
+		String action = request.getParameter("action");
         System.out.println(action);
         if(action == null)
             action = "page";
@@ -32,7 +27,7 @@ public class UserProfilePage extends HttpServlet{
             case "logout":
                 this.logout(request, response);
                 break;
-            case "list":
+            case "page":
             default:
             	this.loadPage(request, response);
                 break;
@@ -54,6 +49,7 @@ public class UserProfilePage extends HttpServlet{
 			 throws ServletException, IOException
 	{
 		 HttpSession session = request.getSession();
+
 		 request.setAttribute("username", session.getAttribute("username"));
 
 	     request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp")

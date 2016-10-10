@@ -68,12 +68,14 @@
 
 
 <div class="jumbotron">
-  
+  <div class="col-xs-3"></div>
+  <div class="col-xs-6">
   <div class="input-group">
   <input type="text" class="form-control" placeholder="Shortened URL" aria-describedby="basic-addon2">
   <span class="input-group-addon" id="basic-addon">URL</span>
   </div>
-  
+  </div>
+  <div class="col-xs-3"></div>
 </div>
 
 

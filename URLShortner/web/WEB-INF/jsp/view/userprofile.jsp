@@ -40,7 +40,18 @@
 
 <h1> Welcome ${username}</h1>
 
-
+<div class="jumbotron">
+  <div class="col-xs-3"></div>
+  <div class="col-xs-6">
+  <form method="POST" action="<c:url value="/userprofile"><c:param name="action" value="shortenURL" /></c:url>">
+  <div class="input-group">
+  <input type="text" class="form-control" placeholder="URL" aria-describedby="basic-addon2">
+  <span class="input-group-addon" id="basic-addon"></span>
+  </div>
+  </form>
+  </div>
+  <div class="col-xs-3"></div>
+</div>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

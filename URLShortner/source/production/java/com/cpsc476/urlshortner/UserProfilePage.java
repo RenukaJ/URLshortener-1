@@ -27,6 +27,8 @@ public class UserProfilePage extends HttpServlet{
             case "logout":
                 this.logout(request, response);
                 break;
+            case "shortenURL":
+            	this.shortenURl(request, response);
             case "page":
             default:
             	this.loadPage(request, response);
@@ -43,6 +45,17 @@ public class UserProfilePage extends HttpServlet{
 		 request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
          .forward(request, response);
          return;
+	}
+	 
+	 private void shortenURl(HttpServletRequest request, HttpServletResponse response)
+			 throws ServletException, IOException
+	{
+		 HttpSession session = request.getSession();
+
+		 request.setAttribute("username", session.getAttribute("username"));
+
+	     request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp")
+	            .forward(request, response);
 	}
 	 
 	 private void loadPage(HttpServletRequest request, HttpServletResponse response)

@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 )
 public class UserProfilePage extends HttpServlet{
 	
+	URLShortner urlMapperUtil = new URLShortner();
+	
 	private Map<String, URLHandler> urlhandler = new LinkedHashMap<>();
 	//Key = username, Value = Object of URLDb hashmap
 	
@@ -38,7 +40,7 @@ public class UserProfilePage extends HttpServlet{
                 this.logout(request, response);
                 break;
             case "shortenURL":
-            	this.shortenURl(request, response);
+            	this.shortenURL(request, response);
             case "page":
             default:
             	this.loadPage(request, response);
@@ -62,7 +64,7 @@ public class UserProfilePage extends HttpServlet{
                 this.logout(request, response);
                 break;
             case "shortenURL":
-            	this.shortenURl(request, response);
+            	this.shortenURL(request, response);
         
             case "page":
             default:
@@ -82,7 +84,7 @@ public class UserProfilePage extends HttpServlet{
          return;
 	}
 	 
-	 private void shortenURl(HttpServletRequest request, HttpServletResponse response)
+	 private void shortenURL(HttpServletRequest request, HttpServletResponse response)
 			 throws ServletException, IOException
 	{
 		 //Todo - Need to handle per user longurl
@@ -94,12 +96,12 @@ public class UserProfilePage extends HttpServlet{
 		 
 		 if(urlhandler.containsKey(username)){
 			 URLHandler hd = urlhandler.get(username);
-			 String encoded = createEncodedURL(longUrl);
+			 String encoded = getEncodedURL(longUrl);
 			 hd.urlList.put(longUrl, encoded);
 			 hd.urlCount.put(longUrl, 0);
 		 }
 		 else{
-			 String encod = createEncodedURL(longUrl);
+			 String encod = getEncodedURL(longUrl);
 			 URLHandler uh = new URLHandler(longUrl, encod);
 			 urlhandler.put(username, uh);
 			
@@ -129,9 +131,26 @@ public class UserProfilePage extends HttpServlet{
 	}
 	 
 	 
-	 private String createEncodedURL(String url){
-	    	//perform encoding
-	    	return "xyz";
-	    }
+	 private String getEncodedURL(String longUrl){
+		 String encodedURL="";
+		 try{			 
+			 encodedURL = urlMapperUtil.getEncodedURL(longUrl);
+		 }catch(Exception e){
+			 e.getMessage();
+		 }
+		 return encodedURL;
+		 
+		 
+	 }
+	 
+	 private String getLongURL(String shortUrl){
+		 String longURL="";
+		 try{			 
+			 longURL = urlMapperUtil.getLongURL(shortUrl);
+		 }catch(Exception e){
+			 e.getMessage();
+		 }
+		 return longURL;
+	 }
 	 
 }

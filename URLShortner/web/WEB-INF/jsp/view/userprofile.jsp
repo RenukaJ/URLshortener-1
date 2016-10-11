@@ -62,14 +62,16 @@
 <c:choose>
     <c:when test="${links ne null}">
         <c:forEach items="${links}" var="link">
-        <h3><a target="_blank" href="${link.key}">${link.value}</a></h3>
+        <h3>
+        <a target="_blank" href="${link.key}">${link.value}</a>
+        </h3>
     	<h5>Key = ${link.key}, value = ${link.value}</h5><br>
    </c:forEach>
         <br />
     </c:when>    
     <c:otherwise>
         <h1> Data does not exists</h1> 
-        <br />
+        <br/>
     </c:otherwise>
 </c:choose>
 

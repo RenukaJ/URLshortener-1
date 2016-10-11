@@ -63,6 +63,7 @@ public class UserProfilePage extends HttpServlet{
                 break;
             case "shortenURL":
             	this.shortenURl(request, response);
+        
             case "page":
             default:
             	this.loadPage(request, response);
@@ -95,11 +96,13 @@ public class UserProfilePage extends HttpServlet{
 			 URLHandler hd = urlhandler.get(username);
 			 String encoded = createEncodedURL(longUrl);
 			 hd.urlList.put(longUrl, encoded);
+			 hd.urlCount.put(longUrl, 0);
 		 }
 		 else{
 			 String encod = createEncodedURL(longUrl);
 			 URLHandler uh = new URLHandler(longUrl, encod);
 			 urlhandler.put(username, uh);
+			
 		 }
 		 
 		 

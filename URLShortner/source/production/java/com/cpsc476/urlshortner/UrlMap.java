@@ -28,9 +28,14 @@ public class UrlMap extends HttpServlet{
 		urlCount.put(url, 0);
 	}
 	public void addUrlCount(String url){
+		System.out.println("URL for searching:" + url);
 		int count = urlCount.get(url);
 		count++;
 		urlCount.put(url, count);
+		System.out.println("Real:" + urlCount.get(url));
+	}
+	public int getCount(String url){
+		return urlCount.get(url);
 	}
 	
 	@Override
@@ -94,9 +99,11 @@ public class UrlMap extends HttpServlet{
 				if(URLMapping.containsKey(parts[1])){
 					orgUrl = URLMapping.get(parts[1]);
 				}
+				System.out.println("Org url def action:" +orgUrl);
 				addUrlCount(orgUrl);
 				System.out.println("Incremented Count: " + urlCount.get(orgUrl));
 				response.sendRedirect(orgUrl);
+				
 			 }
 
 	

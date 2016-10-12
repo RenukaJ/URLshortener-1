@@ -121,6 +121,7 @@ public class UserProfilePage extends HttpServlet{
 		 if(urlhandler.containsKey(username)){
 			 System.out.println(urlhandler.get(username).urlList);
 			 request.setAttribute("links", urlhandler.get(username).urlList);
+			 request.setAttribute("linksCount", UrlMap.urlCount);
 		 }
 		 else{
 			 request.setAttribute("links", null);

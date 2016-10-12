@@ -1,6 +1,6 @@
 <%@ page import="java.util.Map"%>
-<%@page import="com.cpsc476.urlshortner.URLHandler"%>
-
+<%@page import="com.cpsc476.urlshortner.URLShortner"%>
+ 
 
 
 <!DOCTYPE html>
@@ -61,10 +61,17 @@
 
 <c:choose>
     <c:when test="${links ne null}">
+   
         <c:forEach items="${links}" var="link">
         <h3>
-        <a target="_blank" href="${link.key}">${link.value}</a>
+<!-- Normally a href sends GET request. NEed to handle the code for using POST request. But in this case, GET request also makes sense  -->
+		
+        <a href="<c:url value="/short/*">
+        <c:param name="action" value="processshURL" />
+        <c:param name="url" value="${link.value}" />
+        </c:url>">${link.value}</a>
         </h3>
+       
     	<h5>Key = ${link.key}, value = ${link.value}</h5><br>
    </c:forEach>
         <br />

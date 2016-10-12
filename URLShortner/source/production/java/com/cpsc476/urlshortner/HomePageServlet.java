@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.wrox.LoginServlet;
 
 
 @WebServlet(
@@ -51,5 +50,13 @@ public class HomePageServlet extends HttpServlet{
 	    {
 	        
 	    }
+	    
+	    public String generateLongURL(String shortURL){
+
+			if(UrlMap.URLMapping.containsKey(shortURL)){
+				return UrlMap.URLMapping.get(shortURL);
+			}
+			return null;
+		}
 
 }

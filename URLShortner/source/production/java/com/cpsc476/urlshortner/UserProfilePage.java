@@ -3,6 +3,7 @@ package com.cpsc476.urlshortner;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +22,7 @@ public class UserProfilePage extends HttpServlet{
 	
 	private Map<String, URLHandler> urlhandler = new LinkedHashMap<>();
 	//Key = username, Value = Object of URLDb hashmap
+	
 	
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -96,12 +98,12 @@ public class UserProfilePage extends HttpServlet{
 		 
 		 if(urlhandler.containsKey(username)){
 			 URLHandler hd = urlhandler.get(username);
-			 String encoded = getEncodedURL(longUrl);
+			 String encoded = generateShortenedURL(longUrl);
 			 hd.urlList.put(longUrl, encoded);
-			 hd.urlCount.put(longUrl, 0);
+			 UrlMap.urlCount.put(longUrl, 0);
 		 }
 		 else{
-			 String encod = getEncodedURL(longUrl);
+			 String encod = generateShortenedURL(longUrl);
 			 URLHandler uh = new URLHandler(longUrl, encod);
 			 urlhandler.put(username, uh);
 			
@@ -131,26 +133,36 @@ public class UserProfilePage extends HttpServlet{
 	}
 	 
 	 
-	 private String getEncodedURL(String longUrl){
-		 String encodedURL="";
-		 try{			 
-			 encodedURL = urlMapperUtil.getEncodedURL(longUrl);
-		 }catch(Exception e){
-			 e.getMessage();
-		 }
-		 return encodedURL;
-		 
-		 
-	 }
-	 
-	 private String getLongURL(String shortUrl){
-		 String longURL="";
-		 try{			 
-			 longURL = urlMapperUtil.getLongURL(shortUrl);
-		 }catch(Exception e){
-			 e.getMessage();
-		 }
-		 return longURL;
-	 }
-	 
+
+	 public String generateShortenedURL(String longUrl){
+			//convert longUrl into 36 bit hash value
+			//take max bits
+			//convert to String with base 36 encoding
+		 String encodedUrl = "";
+			try{
+				if(UrlMap.URLMapping.containsValue(longUrl)){
+					for(String o : UrlMap.URLMapping.keySet()){
+						if(UrlMap.URLMapping.get(o).equals(longUrl)){
+							encodedUrl = o;
+						}
+					}
+				}
+				else{
+					Integer hashKey = (int) UUID.nameUUIDFromBytes(longUrl.getBytes()).getMostSignificantBits();
+					encodedUrl = Integer.toString(hashKey, 36);
+					UrlMap.URLMapping.put(encodedUrl, longUrl);
+					
+				}
+
+			}catch(Exception ex){
+				ex.printStackTrace(System.out);
+			}
+
+			return "http://localhost:8080/URLShortner/short/" +encodedUrl;
+		
+		}
+
+
+		
+		
 }

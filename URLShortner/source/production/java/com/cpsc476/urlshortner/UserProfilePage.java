@@ -28,8 +28,22 @@ public class UserProfilePage extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-		
+		HttpSession session = request.getSession();
 		//this need to be optimized
+		/************8 Check if user logged in ****************/
+		  if(request.getSession().getAttribute("username") == null)
+	        {
+	            response.sendRedirect("home");
+	            return;
+	        }
+		  if(request.getParameter("logout") != null)
+	        {
+	            session.invalidate();
+	            response.sendRedirect("home");
+	            return;
+	        }
+
+		  
 		String action = request.getParameter("action");
         System.out.println(action);
         
@@ -41,8 +55,6 @@ public class UserProfilePage extends HttpServlet{
             case "logout":
                 this.logout(request, response);
                 break;
-            case "shortenURL":
-            	this.shortenURL(request, response);
             case "page":
             default:
             	this.loadPage(request, response);
@@ -54,6 +66,19 @@ public class UserProfilePage extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
+		HttpSession session = request.getSession();
+		  if(request.getSession().getAttribute("username") == null)
+	        {
+	            response.sendRedirect("home");
+	            return;
+	        }
+		  if(request.getParameter("logout") != null)
+	        {
+	            session.invalidate();
+	            response.sendRedirect("home");
+	            return;
+	        }
+
 		String action = request.getParameter("action");
         System.out.println(action);
         
@@ -67,7 +92,6 @@ public class UserProfilePage extends HttpServlet{
                 break;
             case "shortenURL":
             	this.shortenURL(request, response);
-        
             case "page":
             default:
             	this.loadPage(request, response);
@@ -106,7 +130,6 @@ public class UserProfilePage extends HttpServlet{
 			 String encod = generateShortenedURL(longUrl);
 			 URLHandler uh = new URLHandler(longUrl, encod);
 			 urlhandler.put(username, uh);
-			
 		 }
 		 
 		 
@@ -119,11 +142,13 @@ public class UserProfilePage extends HttpServlet{
 		 String username = (String) session.getAttribute("username");
 		 request.setAttribute("username", username);
 		 if(urlhandler.containsKey(username)){
+			 System.out.println("Contains Username");
 			 System.out.println(urlhandler.get(username).urlList);
 			 request.setAttribute("links", urlhandler.get(username).urlList);
 			 request.setAttribute("linksCount", UrlMap.urlCount);
 		 }
 		 else{
+			 System.out.println("No Username");
 			 request.setAttribute("links", null);
 		 }
 		 

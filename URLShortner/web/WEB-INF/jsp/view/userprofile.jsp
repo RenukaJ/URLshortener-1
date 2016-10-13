@@ -1,6 +1,19 @@
 <%@ page import="java.util.Map"%>
-<%@page import="com.cpsc476.urlshortner.URLShortner"%>
-<%@page import="com.cpsc476.urlshortner.UrlMap"%>
+<%@ page import="java.util.Iterator"%>
+
+<%
+    @SuppressWarnings("unchecked")
+    Map<String, String> urlMapping =
+            (Map<String, String>)request.getAttribute("links");
+
+%>
+
+<%
+    @SuppressWarnings("unchecked")
+    Map<String, Integer> urlCount =
+            (Map<String, Integer>)request.getAttribute("linksCount");
+
+%>
 
 
 <!DOCTYPE html>
@@ -57,32 +70,25 @@
   </div>
   <div class="col-xs-3"></div>
 </div>
+<%if(urlMapping != null){ %>
+<% Iterator it = urlMapping.entrySet().iterator(); %>
+<% while (it.hasNext()) { %>
+      <% Map.Entry pair = (Map.Entry)it.next(); %>
+      <% String longUrl = (String)pair.getKey(); %>
+      <% String shortUrl = (String)pair.getValue(); %>
+      <h4>Main URL:<%=longUrl %> </h4>
+      <a href="<c:url value="/short/*">
+        <c:param name="action" value="processshURL"/>
+        <c:param name="url" value="<%= shortUrl%>"/>
+        </c:url>"><%= shortUrl%></a>
+      <h5>Count: <%=urlCount.get(longUrl) %></h5>
+    <%} %>
+    <%} %>
+  <% else { %>  
 
-
-<c:choose>
-    <c:when test="${links ne null}">
-   
-        <c:forEach items="${links}" var="link">
-        <h4>
-<!-- Normally a href sends GET request. NEed to handle the code for using POST request. But in this case, GET request also makes sense  -->
-		
-
-		<h5>Original URl: ${link.key}</h5>
-        <a href="<c:url value="/short/*">
-        <c:param name="action" value="processshURL" />
-        <c:param name="url" value="${link.value}" />
-        </c:url>">${link.value}</a>
-        </h4>
-     	<h5>Visits: ${linksCount}</h5>
-    	<br>
-   </c:forEach>
-        <br />
-    </c:when>    
-    <c:otherwise>
-        <h1> Data does not exists</h1> 
+        <h1> Data does not exists</h1>
+        <%} %> 
         <br/>
-    </c:otherwise>
-</c:choose>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

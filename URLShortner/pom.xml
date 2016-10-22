@@ -4,7 +4,6 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.cpsc476.urlshortner</groupId>
 	<artifactId>URLShortner</artifactId>
 	<version>3.0.0.SNAPSHOT</version>
 	<packaging>war</packaging>
@@ -101,4 +100,5 @@
 		</plugins>
 	</build>
 
+	<groupId>controller</groupId>
 </project>

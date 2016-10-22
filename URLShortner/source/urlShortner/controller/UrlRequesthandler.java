@@ -1,46 +1,102 @@
-package com.cpsc476.urlshortner;
+package controller;
 
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.UUID;
-
-import org.apache.commons.codec.binary.Base64;
+import java.io.IOException;
 
 
-public class URLShortner {
-	HashMap<String, String> hashEncodedURLMap = new HashMap<>();
-	HashMap<String, String> hashLongUrlMap = new HashMap<>();
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import model.DBRequesthandler;
 
-	private String encodedURL= "";
-	private String longURL= "";
 
+@WebServlet(
+        name = "shortURLHandler",
+        urlPatterns = "/short/*"
+)
 
-	public URLShortner(){
-
-	}
+public class UrlRequesthandler extends HttpServlet{
 	
+	DBRequesthandler reqHandler = new DBRequesthandler();
 	
-	public String getLongURL(String shortURL) {
-		return generateLongURL(shortURL);
-	}
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException , IOException
+    {
+		//Get all objects of UserUrlList class.
+		//search for relevant match
+		//add clicks to URL
+		
+		String action = request.getParameter("action");
+        System.out.println(action);
+        
+        if(action == null)
+            action = "page";
+        
+        switch(action)
+        {
+            case "gotoUrl":
+            	System.out.println("in PP");
+                this.gotoUrl(request, response);
+                break;
+            case "page":
+            default:
+            	browserUrlRequstAction(request, response);
+                break;
+        }
+    }
+	
+	public void gotoUrl(HttpServletRequest request, HttpServletResponse response)
+			 throws ServletException, IOException
+			 {
+				
+				System.out.println("In process");
+				String orgUrl = "";
+				String shUrl = request.getParameter("url");
+				String parts[] = shUrl.split("short/");
+				System.out.println("parts is: " + parts[1]);
+				if(reqHandler.shortUrlexists(shUrl)){
+					orgUrl = reqHandler.getLongUrl(shUrl);
+					System.out.println("Original url is "+orgUrl);
+					reqHandler.addUrlVisitCount(shUrl);
+					response.sendRedirect(orgUrl);
+				}
+				else{
+					System.out.println("Url does not exist" + shUrl);
+					//redirect to 404 page
+				}
+				
+			 }
+	
+	public void browserUrlRequstAction(HttpServletRequest request, HttpServletResponse response)
+			 throws ServletException, IOException
+			 {
+				String shUrl = request.getRequestURI();
+				shUrl = "http://localhost:8080" + shUrl;
+				
+				String orgUrl = "";
+			
+				if(reqHandler.shortUrlexists(shUrl)){
+					orgUrl = reqHandler.getLongUrl(shUrl);
+					reqHandler.addUrlVisitCount(shUrl);
+					response.sendRedirect(orgUrl);
+				}
+				else{
+					System.out.println("Url does not exist" + shUrl);
+					//redirect to 404 page
+				}
+			 }
+}
 
 
-	public void setLongURL(String longURL) {
-		this.longURL = longURL;
-	}
 
 
-	public String getEncodedURL(String longURL) {
-
-		return generateShortenedURL(longURL);
-	}
 
 
-	public void setEncodedURL(String encodedURL) {
-		this.encodedURL = encodedURL;
-	}
 
 
+
+/*
 	public String generateShortenedURL(String longUrl){
 		//convert longUrl into 36 bit hash value
 		String encodedURL="";

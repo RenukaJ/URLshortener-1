@@ -1,4 +1,4 @@
-package com.cpsc476.urlshortner;
+package controller;
 
 
 import javax.servlet.ServletException;

@@ -74,21 +74,17 @@
 <% Iterator it = urlMapping.entrySet().iterator(); %>
 <% while (it.hasNext()) { %>
       <% Map.Entry pair = (Map.Entry)it.next(); %>
-      <% String longUrl = (String)pair.getKey(); %>
-      <% String shortUrl = (String)pair.getValue(); %>
+      <% String shortUrl = (String)pair.getKey(); %>
+      <% String longUrl = (String)pair.getValue(); %>
       <h4>Main URL:<%=longUrl %> </h4>
       <a href="<c:url value="/short/*">
-        <c:param name="action" value="processshURL"/>
-        <c:param name="url" value="<%= shortUrl%>"/>
+        <c:param name="action" value="gotoUrl"/>
+        <c:param name="url" value="<%=shortUrl%>"/>
         </c:url>"><%= shortUrl%></a>
-      <h5>Count: <%=urlCount.get(longUrl) %></h5>
+      <h5>Count: <%=urlCount.get(shortUrl) %></h5>
     <%} %>
     <%} %>
-  <% else { %>  
 
-        <h1> Data does not exists</h1>
-        <%} %> 
-        <br/>
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

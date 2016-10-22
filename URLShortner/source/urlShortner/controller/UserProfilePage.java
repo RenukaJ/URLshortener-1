@@ -1,4 +1,4 @@
-package com.cpsc476.urlshortner;
+package controller;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -12,17 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.DBRequesthandler;
+import model.UserUrlList;
+
+
 @WebServlet(
         name = "UserProfileServlet",
         urlPatterns = "/userprofile"
 )
+
+/**************Check logout belongs to get or post**************/
+
 public class UserProfilePage extends HttpServlet{
 	
-	URLShortner urlMapperUtil = new URLShortner();
-	
-	private Map<String, URLHandler> urlhandler = new LinkedHashMap<>();
-	//Key = username, Value = Object of URLDb hashmap
-	
+	DBRequesthandler reqHandler = new DBRequesthandler();
 	
 	@Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -30,12 +33,16 @@ public class UserProfilePage extends HttpServlet{
     {
 		HttpSession session = request.getSession();
 		//this need to be optimized
-		/************8 Check if user logged in ****************/
+		  
+		  /*The below code checks if user is logged in or not.
+		   * If logged in, user is redirected to /userprofile Servlet
+		   */
 		  if(request.getSession().getAttribute("username") == null)
 	        {
 	            response.sendRedirect("home");
 	            return;
 	        }
+		  
 		  if(request.getParameter("logout") != null)
 	        {
 	            session.invalidate();
@@ -67,11 +74,15 @@ public class UserProfilePage extends HttpServlet{
             throws ServletException, IOException
     {
 		HttpSession session = request.getSession();
+		/*The below code checks if user is logged in or not.
+		   * If logged in, user is redirected to /userprofile Servlet
+		   */
 		  if(request.getSession().getAttribute("username") == null)
 	        {
 	            response.sendRedirect("home");
 	            return;
 	        }
+		  
 		  if(request.getParameter("logout") != null)
 	        {
 	            session.invalidate();
@@ -99,7 +110,8 @@ public class UserProfilePage extends HttpServlet{
         }
     }
 	
-	 private void logout(HttpServletRequest request, HttpServletResponse response)
+	
+	private void logout(HttpServletRequest request, HttpServletResponse response)
 			 throws ServletException, IOException
 	{
 		 System.out.println("InLogout");
@@ -110,83 +122,84 @@ public class UserProfilePage extends HttpServlet{
          return;
 	}
 	 
-	 private void shortenURL(HttpServletRequest request, HttpServletResponse response)
+	
+	private void shortenURL(HttpServletRequest request, HttpServletResponse response)
 			 throws ServletException, IOException
-	{
+	{	
 		 //Todo - Need to handle per user longurl
-		 //Todo - Handle if null in URL
+		 //Todo - Handle if null in URL/
+		/*
+		 * 1. Get all session Details - Long URL, and Username
+		 * 2. Check if Url is null; if null send error // may be do the check in UI itself *******************
+		 * 3. Check if shortened URL already exists
+		 * 		YES:
+			 * 		Get shortened URL 
+			 *      Add shortened URL and Long URl to UserUrlList
+			 *  NO:
+			 *  	Create Shortened URL
+			 *  	Add shortened URL to and Long URL to UserUrList
+			 *  	Add URL to Global urlCount and initialize it to 0
+			 *  	Add URL to Global urlMapping
+		 */
 		 
 		 HttpSession session = request.getSession();
 		 String longUrl = request.getParameter("longUrl");
 		 String username = (String) session.getAttribute("username");
+		 String encoded = "";
 		 
-		 if(urlhandler.containsKey(username)){
-			 URLHandler hd = urlhandler.get(username);
-			 String encoded = generateShortenedURL(longUrl);
-			 hd.urlList.put(longUrl, encoded);
-			 UrlMap.urlCount.put(longUrl, 0);
-		 }
-		 else{
-			 String encod = generateShortenedURL(longUrl);
-			 URLHandler uh = new URLHandler(longUrl, encod);
-			 urlhandler.put(username, uh);
-		 }
-		 
-		 
+
+			 if(reqHandler.globalurlMappingExists(longUrl)){
+				 encoded  = reqHandler.getShortURl(longUrl);
+				 reqHandler.addUrlMappingToUser(username, longUrl, encoded);
+				 
+			 }
+			 else{
+				 encoded = reqHandler.generateShortURL(longUrl);
+				 reqHandler.addUrlMappingToUser(username, longUrl, encoded);
+				 reqHandler.addUrlToCountsList(encoded);
+				 reqHandler.addUrltoMappingList(encoded, longUrl);
+			 }
 	}
+	
 	 
 	 private void loadPage(HttpServletRequest request, HttpServletResponse response)
 			 throws ServletException, IOException
 	{
+		 /*
+		  * 1. Check if UserUrlList exists for current user
+		  * 	YES:
+		  * 		a. Get the list of shortenedUrl for a user
+		  * 		b. Set request Attributes
+		  * 			Attributes:
+		  * 			b.1 username = Username of Current User
+		  * 			b.2 links = UserUrlList  - Map of all long and short urls by user 
+		  * 			b.3 linksCount = GLobal Map of url visits count
+		  * 		c. Send the control over to the userprofileJsp
+		  */
 		 HttpSession session = request.getSession();
 		 String username = (String) session.getAttribute("username");
+		 
+		 
 		 request.setAttribute("username", username);
-		 if(urlhandler.containsKey(username)){
-			 System.out.println("Contains Username");
-			 System.out.println(urlhandler.get(username).urlList);
-			 request.setAttribute("links", urlhandler.get(username).urlList);
-			 request.setAttribute("linksCount", UrlMap.urlCount);
+		 
+		 if(reqHandler.userUrlListExists(username)){
+			 System.out.println(reqHandler.getUserUrlList(username));
+			 request.setAttribute("links", reqHandler.getUserUrlList(username));
+			 request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
 		 }
 		 else{
 			 System.out.println("No Username");
 			 request.setAttribute("links", null);
 		 }
 		 
-	     request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp")
-	            .forward(request, response);
+	     request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
 	
 		 
 	}
 	 
 	 
 
-	 public String generateShortenedURL(String longUrl){
-			//convert longUrl into 36 bit hash value
-			//take max bits
-			//convert to String with base 36 encoding
-		 String encodedUrl = "";
-			try{
-				if(UrlMap.URLMapping.containsValue(longUrl)){
-					for(String o : UrlMap.URLMapping.keySet()){
-						if(UrlMap.URLMapping.get(o).equals(longUrl)){
-							encodedUrl = o;
-						}
-					}
-				}
-				else{
-					Integer hashKey = (int) UUID.nameUUIDFromBytes(longUrl.getBytes()).getMostSignificantBits();
-					encodedUrl = Integer.toString(hashKey, 36);
-					UrlMap.URLMapping.put(encodedUrl, longUrl);
-					
-				}
-
-			}catch(Exception ex){
-				ex.printStackTrace(System.out);
-			}
-
-			return "http://localhost:8080/URLShortner/short/" +encodedUrl;
-		
-		}
+	
 
 
 		

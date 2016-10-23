@@ -31,7 +31,7 @@
   <body>
     <!--  Navbar -->
     
-   <nav class="navbar navbar-default">
+   <nav class="navbar navbar-inverse navbar-fixed-top" id="uSh_navbar">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -41,16 +41,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Brand</a>
+      <a class="navbar-brand" href="#" id="uSh_brand">Brand</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>" >Logout</a></li>
+        <li id="uSh_logout"><a href="<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>" >Logout</a></li>
         
-        <li><h3>${username}</h3></li>
+        <li><h3 id="uSh_username">${username}</h3></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

@@ -30,15 +30,12 @@ public class GlobalUrlMap extends HttpServlet{
 
 	public void addNewUrlTourlMapping(String shortUrl, String longUrl){
 		urlMapping.put(shortUrl, longUrl);
-		System.out.println("URL Mapping Updated" + shortUrl +"," +longUrl);
 	}
 	
 	public void addUrlCount(String url){
-		System.out.println("URL for searching:" + url);
 		int count = urlCount.get(url);
 		count++;
 		urlCount.put(url, count);
-		System.out.println("Real:" + urlCount.get(url));
 	}
 	
 	public Map<String, Integer> getGlobalUrlCount(){
@@ -50,8 +47,6 @@ public class GlobalUrlMap extends HttpServlet{
 	}
 	
 	public boolean shortUrlexists(String shortUrl){
-		System.out.println("Searching for "+shortUrl);
-		System.out.println("Short URL: "+ urlMapping.containsKey(shortUrl));
 		return urlMapping.containsKey(shortUrl);
 	}
 	

@@ -28,7 +28,6 @@ public class UrlRequesthandler extends HttpServlet{
 		//add clicks to URL
 		
 		String action = request.getParameter("action");
-        System.out.println(action);
         
         if(action == null)
             action = "page";
@@ -53,11 +52,9 @@ public class UrlRequesthandler extends HttpServlet{
 				System.out.println("In process");
 				String orgUrl = "";
 				String shUrl = request.getParameter("url");
-				String parts[] = shUrl.split("short/");
-				System.out.println("parts is: " + parts[1]);
+				//String parts[] = shUrl.split("short/");
 				if(reqHandler.shortUrlexists(shUrl)){
 					orgUrl = reqHandler.getLongUrl(shUrl);
-					System.out.println("Original url is "+orgUrl);
 					reqHandler.addUrlVisitCount(shUrl);
 					response.sendRedirect(orgUrl);
 				}

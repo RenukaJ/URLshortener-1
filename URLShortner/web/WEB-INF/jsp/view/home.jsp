@@ -1,3 +1,8 @@
+<% 
+	String longUrl = (String)session.getAttribute("longUrl");
+	session.removeAttribute("longUrl");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +54,6 @@
 		</div>
 		<!-- /.container-fluid -->
 	</nav>
-
 
 
 	<div aria-labelledby="myModalLabel" class="modal fade login-modal"
@@ -139,9 +143,13 @@
 					<h4 class="modal-title" id="myModalLabel">Original URL</h4>
 				</div>
 				<div class="modal-body">
-					<div class="alert alert-info" role="alert"><strong>Heads Up!</strong></div>
-
+				<div id="getLongUrlSuccess" >
+					<div class="alert alert-info" role="alert"><strong>Heads Up!We have found a match!</strong></div>
+					<div class="well well-sm" ><a href="" id="uSh_setlongVal"></a></div>
+				</div>
+				<div id="getLongUrlFail">
 					<div class="alert alert-danger" role="alert"><strong>Oh snap!</strong>Change a few things up and try submitting again</div>
+				</div>
 				<div class="modal-footer">
 					<div>
 						<p id="uSh_signupCard-errorMessage"></p>
@@ -153,7 +161,7 @@
 </div>
 
 	<div class="container">
-		<div class="jumbotron">
+		<div class="jumbotron" id="uSh_jumbotron">
 			<div class="row">
 				<div class="col-xs-4">
 					<h3>Fetch Original URL</h3>
@@ -174,6 +182,7 @@
 							</div>
 						</div>
 					</form>
+					<p id="uSh_longUrlVal" hidden><%=longUrl %></p>
 				</div>
 				<div class="col-xs-3"></div>
 			</div>

@@ -93,16 +93,30 @@ public class HomePageServlet extends HttpServlet{
 	    private void getLongURL(HttpServletRequest request, HttpServletResponse response)
 				 throws ServletException, IOException
 	    {
+	    	HttpSession session = request.getSession();
 	    	String shUrl = request.getParameter("shortUrl");
+	    	System.out.println(shUrl);
 	    	if(shUrl.startsWith("http://localhost:8080/URLShortner/")){
 	    		if(reqHandler.shortUrlexists(shUrl)){
 	    			String longUrl = reqHandler.getLongUrl(shUrl);
 	    			System.out.println(longUrl);
-	    			request.setAttribute("longUrl", longUrl);
+	    			session.setAttribute("longUrl", longUrl);
+	    			session.removeAttribute("action");
+	    		}
+	    		else{
+	    			session.setAttribute("longUrl", "undefined");
+	    			session.removeAttribute("action");
+	    			
 	    		}
 	    		
 	    	}
-	    	 request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);
+	    	else{
+	    		session.setAttribute("longUrl", "undefined");
+	    		session.removeAttribute("action");
+	    	}
+	    	//response.sendRedirect("home");
+	    	//request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);
+	    	response.sendRedirect(request.getContextPath() + "/index.jsp");
 			
 		}
 	    

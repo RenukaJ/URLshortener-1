@@ -37,8 +37,9 @@ public class UserProfilePage extends HttpServlet{
 		  /*The below code checks if user is logged in or not.
 		   * If logged in, user is redirected to /userprofile Servlet
 		   */
-		  if(request.getSession().getAttribute("username") == null)
+		  if(request.getSession().getAttribute("username") == null || request.getSession() == null)
 	        {
+			    session.invalidate();
 	            response.sendRedirect("home");
 	            return;
 	        }
@@ -77,8 +78,9 @@ public class UserProfilePage extends HttpServlet{
 		/*The below code checks if user is logged in or not.
 		   * If logged in, user is redirected to /userprofile Servlet
 		   */
-		  if(request.getSession().getAttribute("username") == null)
+		  if(request.getSession().getAttribute("username") == null || request.getSession() == null)
 	        {
+			    session.invalidate();
 	            response.sendRedirect("home");
 	            return;
 	        }
@@ -188,7 +190,6 @@ public class UserProfilePage extends HttpServlet{
 			 request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
 		 }
 		 else{
-			 System.out.println("No Username");
 			 request.setAttribute("links", null);
 		 }
 		 

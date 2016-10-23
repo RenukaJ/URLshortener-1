@@ -100,6 +100,7 @@ public class LoginServlet extends HttpServlet
         }
         else
         {
+        	
             session.setAttribute("username", username);
             request.changeSessionId();
             response.sendRedirect("userprofile");

@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.DBRequesthandler;
+
 
 
 @WebServlet(
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpSession;
 )
 
 public class HomePageServlet extends HttpServlet{
+		DBRequesthandler reqHandler = new DBRequesthandler();
 
 	  @Override
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -77,8 +80,8 @@ public class HomePageServlet extends HttpServlet{
 	        
 	        switch(action)
 	        {
-	            case "generateLongUrl":
-	                this.generateLongURL(request, response);
+	            case "getLongUrl":
+	                this.getLongURL(request, response);
 	                break;
 	            case "page":
 	            default:
@@ -87,10 +90,20 @@ public class HomePageServlet extends HttpServlet{
 	        }
 	    }
 	    
-	    private String generateLongURL(HttpServletRequest request, HttpServletResponse response)
+	    private void getLongURL(HttpServletRequest request, HttpServletResponse response)
 				 throws ServletException, IOException
 	    {
-			return null;
+	    	String shUrl = request.getParameter("shortUrl");
+	    	if(shUrl.startsWith("http://localhost:8080/URLShortner/")){
+	    		if(reqHandler.shortUrlexists(shUrl)){
+	    			String longUrl = reqHandler.getLongUrl(shUrl);
+	    			System.out.println(longUrl);
+	    			request.setAttribute("longUrl", longUrl);
+	    		}
+	    		
+	    	}
+	    	 request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);
+			
 		}
 	    
 	    private void loadHomePage(HttpServletRequest request, HttpServletResponse response)

@@ -119,7 +119,7 @@
 				</div>
 				<div class="modal-footer">
 					<div>
-						<p id="pt_signupCard-errorMessage"></p>
+						<p id="uSh_signupCard-errorMessage"></p>
 					</div>
 				</div>
 			</div>
@@ -127,9 +127,7 @@
 	</div>
 
 
-
-
-<div aria-labelledby="myModalLabel" class="modal fade showLongUrl-modal"
+	<div aria-labelledby="myModalLabel" class="modal fade showLongUrl-modal"
 		id="uSh_showlongUrlModal" role="dialog" tabindex="-1">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -141,16 +139,18 @@
 					<h4 class="modal-title" id="myModalLabel">Original URL</h4>
 				</div>
 				<div class="modal-body">
-					
-				</div>
+					<div class="alert alert-info" role="alert"><strong>Heads Up!</strong></div>
+
+					<div class="alert alert-danger" role="alert"><strong>Oh snap!</strong>Change a few things up and try submitting again</div>
 				<div class="modal-footer">
 					<div>
-						<p id="pt_signupCard-errorMessage"></p>
+						<p id="uSh_signupCard-errorMessage"></p>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
 	<div class="container">
 		<div class="jumbotron">
@@ -164,7 +164,7 @@
 			<div class="row">
 				<div class="col-xs-6">
 					<form method="POST"
-						action="<c:url value="/userprofile"><c:param name="action" value="shortenURL" /></c:url>">
+						action="<c:url value="/home"><c:param name="action" value="getLongUrl" /></c:url>">
 						<div class="input-group">
 							<input type="text" class="form-control"
 								placeholder="Your Short Url Here" name="shortUrl">
@@ -181,7 +181,7 @@
 		<div class="row">
 			<div class="col-sm-4">
 
-				<h3>
+				<h3 class="shorten">
 					<span class="glyphicon glyphicon-link">&nbsp;Shorten</span>
 				</h3>
 				<p>Shorten long URLs so it’s ready to be shared everywhere.</p>
@@ -190,7 +190,7 @@
 
 			<div class="col-sm-4">
 
-				<h3>
+				<h3 class="share">
 					<span class="glyphicon glyphicon-share">&nbsp;Share</span>
 				</h3>
 				<p>Share links across all your marketing channels.</p>
@@ -200,7 +200,7 @@
 
 			<div class="col-sm-4">
 
-				<h3>
+				<h3 class="analyze">
 					<span class="glyphicon glyphicon-dashboard">&nbsp;Analyze</span>
 				</h3>
 				<p>Analytics help you kn.ow where your clicks are coming from</p>

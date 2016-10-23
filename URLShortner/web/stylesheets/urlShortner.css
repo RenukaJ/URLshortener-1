@@ -1,0 +1,38 @@
+@CHARSET "ISO-8859-1";
+
+body {
+	padding-top: 100px;
+}
+
+.navbar-inverse {
+	background: #134763;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+.navbar-inverse .navbar-brand {
+	color: white;
+	padding-left: 100px;
+}
+
+.navbar-inverse .navbar-right{
+	padding-right: 80px;
+}
+
+.navbar-inverse .navbar-nav>li> button{
+	margin-right: 10px;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+.jumbotron {
+	background: #144774;
+	padding-top: 100px;
+	padding-bottom: 100px;
+	margin-bottom: 30px;
+}
+
+.jumbotron h3 {
+	color: #FFFFFF;
+	padding-bottom: 10px;
+}

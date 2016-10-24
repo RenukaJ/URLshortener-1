@@ -55,8 +55,7 @@ public class UserProfilePage extends HttpServlet{
 
 		  
 		String action = request.getParameter("action");
-        System.out.println(action);
-        
+           
         if(action == null)
             action = "page";
         
@@ -95,7 +94,6 @@ public class UserProfilePage extends HttpServlet{
 	        }
 
 		String action = request.getParameter("action");
-        System.out.println(action);
         
         if(action == null)
             action = "page";
@@ -122,7 +120,6 @@ public class UserProfilePage extends HttpServlet{
 	private void logout(HttpServletRequest request, HttpServletResponse response)
 			 throws ServletException, IOException
 	{
-		 System.out.println("InLogout");
 		 HttpSession session = request.getSession();
 		 session.invalidate();
 		 response.sendRedirect("home");
@@ -196,8 +193,7 @@ public class UserProfilePage extends HttpServlet{
 		 else{
 			 request.setAttribute("links", null);
 		 }
-		
-		 //;
+
 	    request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
  
 	}
@@ -211,18 +207,13 @@ public class UserProfilePage extends HttpServlet{
 		  * b. Delete entry from url list object
 		  * c.Send the control over to the userprofileJsp
 		  */
-		 System.out.println("in Delete");
 		 HttpSession session = request.getSession();
 		 String username = (String) session.getAttribute("username");
 		 String urlToRemove = request.getParameter("urlToRemove");
 
 		 if(reqHandler.userUrlListExists(username)){
-			 System.out.println("Map exixts");
 			 reqHandler.deleteUrlFromUserList(username, urlToRemove);
 		 }
-	
-	
-		// response.sendRedirect(request.getContextPath() + "/index.jsp");
 		 response.sendRedirect("userprofile");
 	 }
 	

@@ -49,7 +49,6 @@ public class UrlRequesthandler extends HttpServlet{
 			 throws ServletException, IOException
 			 {
 				
-				System.out.println("In process");
 				String orgUrl = "";
 				String shUrl = request.getParameter("url");
 				//String parts[] = shUrl.split("short/");
@@ -64,13 +63,11 @@ public class UrlRequesthandler extends HttpServlet{
 					 catch(Exception e){
 						 responseCode = 404;
 					 }
-
 					 if (responseCode == 200) {
-						 System.out.println("gor 200");
+						 
 						 response.sendRedirect(orgUrl);
 					 }
 					 else{
-						 System.out.println("got 404");
 						 response.sendRedirect("/URLShortner/errorPage");
 					 }
 				}
@@ -103,11 +100,9 @@ public class UrlRequesthandler extends HttpServlet{
 					 }
 
 					 if (responseCode == 200) {
-						 System.out.println("gor 200");
 						 response.sendRedirect(orgUrl);
 					 }
 					 else{
-						 System.out.println("got 404");
 						 response.sendRedirect("/URLShortner/errorPage");
 					 }
 					

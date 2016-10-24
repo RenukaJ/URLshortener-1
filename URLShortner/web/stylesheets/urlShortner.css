@@ -48,3 +48,11 @@ body {
 .analyze{
 	color: #c461ca;
 }
+
+.well-sm{
+	word-wrap: break-word;
+}
+
+.main-url{
+	word-wrap: break-word;
+}

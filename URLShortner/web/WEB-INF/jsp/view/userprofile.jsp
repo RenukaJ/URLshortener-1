@@ -71,11 +71,11 @@
 
 
 	<div aria-labelledby="myModalLabel" class="modal fade"
-		id="errorModal" role="dialog" tabindex="-1">
+		id="copyModal" role="dialog" tabindex="-1">
 		<div class="modal-dialog" role="document">
 				<div class="modal-body">
 				<div id="getLongUrlFail">
-					<div class="alert alert-danger" role="alert"><strong>Oh snap!</strong>Change a few things up and try submitting again</div>
+					<div class="alert alert-info" role="alert"><strong>URL Copied to your clipboard !</div>
 				</div>
 			</div>
 	</div>
@@ -133,9 +133,10 @@
 					String longUrl = (String) pair.getValue();
 				%>
 				<li class="list-group-item">
-					<h4>
-						Main URL:<%=longUrl%>
-					</h4> <a
+					<h4>Main URL:<h5><a class="main-url" href= "<%=longUrl%>"><%=longUrl%></a></h5> 
+					</h4>
+					<h4>Shortened Url:</h4> 
+					<a
 					href="<c:url value="/short/*">
         <c:param name="action" value="gotoUrl"/>
         <c:param name="url" value="<%=shortUrl%>"/>

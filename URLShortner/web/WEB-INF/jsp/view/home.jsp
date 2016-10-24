@@ -3,6 +3,14 @@
 	session.removeAttribute("longUrl");
 %>
 
+<% 
+	String loginFailed = (String)request.getAttribute("loginFailed");
+%>
+
+<% 
+	String signupFailed = (String)request.getAttribute("signupFailed");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,7 +94,8 @@
 				</div>
 				<div class="modal-footer">
 					<div>
-						<p id="pt_loginCard-errorMessage"></p>
+						<p id="getLoginStatus" hidden><%=loginFailed %></p>
+						<div hidden class="alert alert-warning" role="alert" id="pt_loginCard-errorMessage">Invalid Credentials</div>
 					</div>
 				</div>
 			</div>
@@ -123,7 +132,8 @@
 				</div>
 				<div class="modal-footer">
 					<div>
-						<p id="uSh_signupCard-errorMessage"></p>
+					<p id="getSignUpStatus" hidden><%=signupFailed %></p>
+						<div hidden class="alert alert-warning" role="alert" id="uSh_signupCard-errorMessage">User name Already exists !</div>
 					</div>
 				</div>
 			</div>

@@ -61,7 +61,6 @@ public class LoginServlet extends HttpServlet
     	
     	
     	String action = request.getParameter("action");
-        System.out.println(action + "in ok");
         if(action == null)
             action = "page";
         switch(action)
@@ -93,14 +92,13 @@ public class LoginServlet extends HttpServlet
                 !LoginServlet.userDatabase.containsKey(username) ||
                 !password.equals(LoginServlet.userDatabase.get(username)))
         {
-            request.setAttribute("loginFailed", true);
-            request.getRequestDispatcher("/WEB-INF/jsp/view/InvalidLogin.jsp")
+            request.setAttribute("loginFailed", "true");
+            request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
                    .forward(request, response);
             
         }
         else
         {
-        	
             session.setAttribute("username", username);
             request.changeSessionId();
             response.sendRedirect("userprofile");
@@ -125,24 +123,18 @@ public class LoginServlet extends HttpServlet
         if(username == null || password == null ||
                 LoginServlet.userDatabase.containsKey(username))
         {
-        	System.out.println("wrongplace");
-        	//Todo -> Need to give proper error message
-            request.setAttribute("loginFailed", true);
-            request.getRequestDispatcher("/WEB-INF/jsp/view/InvalidLogin.jsp")
+            request.setAttribute("signupFailed", "true");
+            request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
                    .forward(request, response);
             
         }
         else
         {
-        	System.out.println("right place");
         	userDatabase.put(username, password);
             session.setAttribute("username", username);
             request.changeSessionId();
             response.sendRedirect("userprofile");
         }
 	}
-    
-    
-    
-    
+  
 }

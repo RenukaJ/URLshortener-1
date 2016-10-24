@@ -1,9 +1,8 @@
 /**
  * 
  */
-var main = function () {
 
-	var uSh_handler = {
+var uSh_handler = {
 			landpage:{
 				navbar:{
 					logout: "#uSh_logout",
@@ -14,16 +13,20 @@ var main = function () {
 				}
 			},
 			loginCard: {
-				username: "",
-				password: "",
-				loginButton:"",
-					errorMessage: ""
+				handle: "#uSh_loginCard",
+				username: "#uSh_loginCard-loginId",
+				password: "#uSh_loginCard-loginPassword",
+				loginButton:".uSh_loginAction",
+					errorMessage: "#pt_loginCard-errorMessage",
+					getLoginStatus: "#getLoginStatus"
 			},
 			signupCard:{
-				username:"",
-					password: "",
-						signupButton:"",
-							errorMessage:""
+				handle: "#uSh_signupCard",
+				username:"#uSh_signupCard-loginId",
+					password: "#uSh_signupCard-password",
+						signupButton:".uSh_signupAction",
+						getSignupStatus: "#getSignUpStatus",
+							errorMessage:"#uSh_signupCard-errorMessage"
 			},
 			jumbotron_longToShort: {
 				inputHandler: "#uSh_LongtoShjumbotron",
@@ -50,16 +53,17 @@ var main = function () {
 				copyButton: "#uSh_copy",
 				deleteButton: "#uSh_Delete"
 			},
-			errorModal:{
-				handle: "#errorModal"
+			copyModal:{
+				handle: "#copyModal"
 			}
-			
 
 	};
-	
+
+
+
+var main = function () {
 	
 	var longUrl = $(uSh_handler.jumbotron_longToShort.inputbox).text();
-	console.log(longUrl);
 	if(longUrl === "" || longUrl === "null"){
 		
 	}
@@ -71,23 +75,31 @@ var main = function () {
 	}
 		else{
 			$(uSh_handler.showLongUrlCard.urlSuccessDiv).show();
-			$(uSh_handler.showLongUrlCard.urlFailDiv).hide();
-			
-			
-			
+			$(uSh_handler.showLongUrlCard.urlFailDiv).hide();	
 			$(uSh_handler.showLongUrlCard.setUrlVal).text(longUrl);
 			$(uSh_handler.showLongUrlCard.setUrlVal).attr("href", longUrl);
 			$(uSh_handler.showLongUrlCard.handle).modal("show");
 		}
 	}
 	
-	var errorLToS = $(uSh_handler.jumbotron.errorLToS).text();
-	console.log(errorLToS);
+	
+	var loginFailed = $(uSh_handler.loginCard.getLoginStatus).text();
+	if(loginFailed === "true"){
+			$(uSh_handler.loginCard.errorMessage).show();
+			$(uSh_handler.loginCard.handle).modal("show");
+	}
+	var signupFailed = $(uSh_handler.signupCard.getSignupStatus).text();
+	if(signupFailed === "true"){
+		$(uSh_handler.signupCard.errorMessage).show();
+		$(uSh_handler.signupCard.handle).modal("show");
+	}
+
 	
 	
 	$(uSh_handler.jumbotron_longToShort.processButton).click(function(){
 		
 		var val = $(uSh_handler.jumbotron_longToShort.inputbox).val();
+		console.log(val);
 		if (val.indexOf('http://') === -1 && val.indexOf('https://') === -1) {
 		    val = 'http://' + val;
 		}
@@ -98,9 +110,6 @@ var main = function () {
 	         method: "POST",
 	         success: function(){
 	             location.reload();           
-	         },
-	         error: function(){
-	        	 console.log("error sending")
 	         }
 	     });
 	});
@@ -119,8 +128,8 @@ function copyToClipboard(element) {
 	} catch (ex) {
 		console.warn("Copy to clipboard failed.", ex);
 	} finally {
-		alert("Copied ShortUrl to clipboard:" + element);
 		document.body.removeChild(textarea);
+		$(uSh_handler.copyModal.handle).modal("show");
 	}
 }
 
@@ -133,7 +142,7 @@ function urldelete(element){
              location.reload();           
          },
          error: function(){
-        	 console.log("error sending")
+        	 
          }
      });
 }

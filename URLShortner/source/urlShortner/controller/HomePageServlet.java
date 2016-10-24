@@ -73,8 +73,6 @@ public class HomePageServlet extends HttpServlet{
 			  
 			  /*This part handles the actions which can happen on the hoem page*/
 	    	String action = request.getParameter("action");
-	        System.out.println(action);
-	        
 	        if(action == null)
 	            action = "page";
 	        
@@ -95,17 +93,14 @@ public class HomePageServlet extends HttpServlet{
 	    {
 	    	HttpSession session = request.getSession();
 	    	String shUrl = request.getParameter("shortUrl");
-	    	System.out.println(shUrl);
 	    	if(shUrl.startsWith("http://localhost:8080/URLShortner/")){
 	    		if(reqHandler.shortUrlexists(shUrl)){
 	    			String longUrl = reqHandler.getLongUrl(shUrl);
 	    			System.out.println(longUrl);
 	    			session.setAttribute("longUrl", longUrl);
-	    			session.removeAttribute("action");
 	    		}
 	    		else{
 	    			session.setAttribute("longUrl", "undefined");
-	    			session.removeAttribute("action");
 	    			
 	    		}
 	    		
@@ -115,8 +110,8 @@ public class HomePageServlet extends HttpServlet{
 	    		session.removeAttribute("action");
 	    	}
 	    	//response.sendRedirect("home");
-	    	//request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);
-	    	response.sendRedirect(request.getContextPath() + "/index.jsp");
+	    	request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);
+	    	//response.sendRedirect(request.getContextPath() + "/index.jsp");
 			
 		}
 	    

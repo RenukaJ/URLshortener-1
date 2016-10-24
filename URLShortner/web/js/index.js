@@ -32,11 +32,11 @@ var uSh_handler = {
 				inputHandler: "#uSh_LongtoShjumbotron",
 					processButton: "#us_convertlongToShort",
 					inputbox: "#uSh_getLongUrl",
-						errorLToS: "#errorLToS"
 			},
-			jumbotron:{
+			jumbotron_shortToLong:{
 				handle: "#uSh_jumbotron",
-				longUrlSubmit: "#us_convertShortToLong",
+				processButton: "#us_convertShortToLong",
+				inputbox: "#uSh_getShortUrl",
 				longUrlVal: "#uSh_longUrlVal"
 			},
 			showLongUrlCard:{
@@ -63,7 +63,7 @@ var uSh_handler = {
 
 var main = function () {
 	
-	var longUrl = $(uSh_handler.jumbotron_longToShort.inputbox).text();
+	var longUrl = $(uSh_handler.jumbotron_shortToLong.longUrlVal).text();
 	if(longUrl === "" || longUrl === "null"){
 		
 	}

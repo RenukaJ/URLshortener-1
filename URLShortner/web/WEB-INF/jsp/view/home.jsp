@@ -184,7 +184,7 @@
 					<form method="POST"
 						action="<c:url value="/home"><c:param name="action" value="getLongUrl" /></c:url>">
 						<div class="input-group">
-							<input type="text" class="form-control"
+							<input type="text" class="form-control" id="uSh_getShortUrl"
 								placeholder="Your Short Url Here" name="shortUrl">
 							<div class="input-group-btn">
 								<button type="submit" id="us_convertShortToLong" type="button"

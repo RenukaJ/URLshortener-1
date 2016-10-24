@@ -50,16 +50,14 @@
 				id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li id="uSh_logout"><button onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>'"
+					<li id="uSh_logout"><button
+							onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>'"
 							type="button" class="btn btn-md btn-info" id="uSh_login">
 							<span class="glyphicon glyphicon-log-out"> Logout</span>
-						</button>
-					
-					</li>
+						</button></li>
 					<li><button type="button" class="btn btn-md btn-warning">
 							<span class="glyphicon glyphicon-user"> ${username}</span>
-						</button>
-						</li>
+						</button></li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -68,10 +66,10 @@
 	</nav>
 
 
-	
+
 
 	<div class="container">
-	<h1>Welcome ${username}</h1>
+		<h1>Welcome ${username}</h1>
 		<div class="jumbotron" id="uSh_jumbotron">
 			<div class="row">
 				<div class="col-xs-4">
@@ -100,48 +98,53 @@
 			</div>
 		</div>
 		<div class="row">
-		<ul class="list-group">
-			<%
-				if (urlMapping != null) {
-			%>
-			<%
-				Iterator it = urlMapping.entrySet().iterator();
-			%>
-			<%
-				while (it.hasNext()) {
-			%>
-			<%
-				Map.Entry pair = (Map.Entry) it.next();
-			%>
-			<%
-				String shortUrl = (String) pair.getKey();
-			%>
-			<%
-				String longUrl = (String) pair.getValue();
-			%>
-			 <li class="list-group-item">
-			<h4>
-				Main URL:<%=longUrl%>
-			</h4>
-			<a href="<c:url value="/short/*">
+			<ul class="list-group">
+				<%
+					if (urlMapping != null) {
+				%>
+				<%
+					Iterator it = urlMapping.entrySet().iterator();
+				%>
+				<%
+					while (it.hasNext()) {
+				%>
+				<%
+					Map.Entry pair = (Map.Entry) it.next();
+				%>
+				<%
+					String shortUrl = (String) pair.getKey();
+				%>
+				<%
+					String longUrl = (String) pair.getValue();
+				%>
+				<li class="list-group-item">
+					<h4>
+						Main URL:<%=longUrl%>
+					</h4> <a
+					href="<c:url value="/short/*">
         <c:param name="action" value="gotoUrl"/>
         <c:param name="url" value="<%=shortUrl%>"/>
         </c:url>"><%=shortUrl%></a>
-        <span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
-        <div class="btn-toolbar" role="toolbar" aria-label="...">
-			  <div class="btn-group btn btn-success btn-sm" role="group" ><span class="glyphicon glyphicon-copy">&nbsp;Copy</span></div>
-			  <div class="btn-group btn btn-danger btn-sm" role="group" ><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></div>
-			  
-			</div>
-        
-        	</li>
-			<%
-				}
-			%>
-			<%
-				}
-			%>
-		
+					<span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
+					<div class="btn-toolbar" role="toolbar">
+					<button role="group" onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="copy" /></c:url>'"
+							type="button" class="btn btn-sm btn-success" id="uSh_copy">
+							<span class="glyphicon glyphicon-copy">&nbsp;Copy</span>
+					</button>
+					<button role="group" onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="delete" /></c:url>'"
+							type="button" class="btn btn-sm btn-danger" id="uSh_Delete">
+							<span class="glyphicon glyphicon-trash">&nbsp;Delete</span>
+					</button>
+					</div>
+
+				</li>
+				<%
+					}
+				%>
+				<%
+					}
+				%>
+
 			</ul>
 		</div>
 		<div class="row">

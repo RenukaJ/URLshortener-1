@@ -11,6 +11,10 @@
 	Map<String, Integer> urlCount = (Map<String, Integer>) request.getAttribute("linksCount");
 %>
 
+<%
+	String errorinLongUrl =  (String) request.getAttribute("errorinUrl");
+%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,11 +70,21 @@
 	</nav>
 
 
+	<div aria-labelledby="myModalLabel" class="modal fade"
+		id="errorModal" role="dialog" tabindex="-1">
+		<div class="modal-dialog" role="document">
+				<div class="modal-body">
+				<div id="getLongUrlFail">
+					<div class="alert alert-danger" role="alert"><strong>Oh snap!</strong>Change a few things up and try submitting again</div>
+				</div>
+			</div>
+	</div>
+</div>
 
 
 	<div class="container">
 		<h1>Welcome ${username}</h1>
-		<div class="jumbotron" id="uSh_jumbotron">
+		<div class="jumbotron" id="uSh_LongtoShjumbotron">
 			<div class="row">
 				<div class="col-xs-4">
 					<h3>Get Short URL</h3>
@@ -80,19 +94,18 @@
 			</div>
 			<div class="row">
 				<div class="col-xs-6">
-
-					<form method="POST"
-						action="<c:url value="/userprofile"><c:param name="action" value="shortenURL" /></c:url>">
+					<form >
 						<div class="input-group">
 							<input type="text" class="form-control"
 								placeholder="Your Long Url Here" aria-describedby="basic-addon2"
-								name="longUrl"> <span class=""></span>
+								name="longUrl" id="uSh_getLongUrl"> 
 							<div class="input-group-btn">
 								<button type="submit" id="us_convertlongToShort" type="button"
 									class="btn btn-md btn-warning">Get Short URL</button>
 							</div>
 						</div>
 					</form>
+					<p hidden id="errorLToS"><%= errorinLongUrl %></p>
 				</div>
 				<div class="col-xs-3"></div>
 			</div>

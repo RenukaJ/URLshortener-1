@@ -1,3 +1,5 @@
+<%@ page errorPage="error404.jsp" %>
+<%@ page isErrorPage="true" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,11 +27,11 @@
 				<div class="col-xs-4"></div>
 			</div>
 			<div class="row">
-				<div class="col-xs-4">
+				<div class="col-xs-3">
 				</div>
-				<div class="col-xs-4">
+				<div class="col-xs-6">
 				<h2>Use our <a href="http://localhost:8080/URLShortner/home">Home Page</a> instead !</h2></div>
-				<div class="col-xs-4"></div>
+				<div class="col-xs-3"></div>
 			</div>
 		</div>
 		</div>

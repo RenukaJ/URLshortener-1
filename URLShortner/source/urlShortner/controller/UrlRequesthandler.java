@@ -1,7 +1,8 @@
 package controller;
 
 import java.io.IOException;
-
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +36,6 @@ public class UrlRequesthandler extends HttpServlet{
         switch(action)
         {
             case "gotoUrl":
-            	System.out.println("in PP");
                 this.gotoUrl(request, response);
                 break;
             case "page":
@@ -56,11 +56,27 @@ public class UrlRequesthandler extends HttpServlet{
 				if(reqHandler.shortUrlexists(shUrl)){
 					orgUrl = reqHandler.getLongUrl(shUrl);
 					reqHandler.addUrlVisitCount(shUrl);
-					response.sendRedirect(orgUrl);
+					 int responseCode = 404;
+					 try{
+						 HttpURLConnection huc = (HttpURLConnection) new URL(orgUrl).openConnection();
+						 responseCode = huc.getResponseCode();
+					 }
+					 catch(Exception e){
+						 responseCode = 404;
+					 }
+
+					 if (responseCode == 200) {
+						 System.out.println("gor 200");
+						 response.sendRedirect(orgUrl);
+					 }
+					 else{
+						 System.out.println("got 404");
+						 response.sendRedirect("/URLShortner/errorPage");
+					 }
 				}
 				else{
-					System.out.println("Url does not exist" + shUrl);
-					response.sendRedirect("errorPage");
+					response.sendRedirect("/URLShortner/errorPage");
+					return;
 				}
 				
 			 }
@@ -76,12 +92,29 @@ public class UrlRequesthandler extends HttpServlet{
 				if(reqHandler.shortUrlexists(shUrl)){
 					orgUrl = reqHandler.getLongUrl(shUrl);
 					reqHandler.addUrlVisitCount(shUrl);
-					response.sendRedirect(orgUrl);
+					
+					 int responseCode = 404;
+					 try{
+						 HttpURLConnection huc = (HttpURLConnection) new URL(orgUrl).openConnection();
+						 responseCode = huc.getResponseCode();
+					 }
+					 catch(Exception e){
+						 responseCode = 404;
+					 }
+
+					 if (responseCode == 200) {
+						 System.out.println("gor 200");
+						 response.sendRedirect(orgUrl);
+					 }
+					 else{
+						 System.out.println("got 404");
+						 response.sendRedirect("/URLShortner/errorPage");
+					 }
+					
 				}
 				else{
-					System.out.println("Url does not exist" + shUrl);
-					//request.getRequestDispatcher("/WEB-INF/jsp/errorPages/error404.jsp").forward(request, response);
-					response.sendRedirect("errorPage");
+					response.sendRedirect("/URLShortner/errorPage");
+					return;
 				}
 			 }
 }

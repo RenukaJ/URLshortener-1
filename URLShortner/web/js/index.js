@@ -25,12 +25,11 @@ var main = function () {
 						signupButton:"",
 							errorMessage:""
 			},
-			longToShort: {
-				inputHandler: "",
-					processButton: "",
-			},
-			showShortUrls:{
-
+			jumbotron_longToShort: {
+				inputHandler: "#uSh_LongtoShjumbotron",
+					processButton: "#us_convertlongToShort",
+					inputbox: "#uSh_getLongUrl",
+						errorLToS: "#errorLToS"
 			},
 			jumbotron:{
 				handle: "#uSh_jumbotron",
@@ -50,12 +49,16 @@ var main = function () {
 				shortUrl: "#uSh_userShorturl",
 				copyButton: "#uSh_copy",
 				deleteButton: "#uSh_Delete"
+			},
+			errorModal:{
+				handle: "#errorModal"
 			}
+			
 
 	};
 	
 	
-	var longUrl = $(uSh_handler.jumbotron.longUrlVal).text();
+	var longUrl = $(uSh_handler.jumbotron_longToShort.inputbox).text();
 	console.log(longUrl);
 	if(longUrl === "" || longUrl === "null"){
 		
@@ -77,6 +80,30 @@ var main = function () {
 			$(uSh_handler.showLongUrlCard.handle).modal("show");
 		}
 	}
+	
+	var errorLToS = $(uSh_handler.jumbotron.errorLToS).text();
+	console.log(errorLToS);
+	
+	
+	$(uSh_handler.jumbotron_longToShort.processButton).click(function(){
+		
+		var val = $(uSh_handler.jumbotron_longToShort.inputbox).val();
+		if (val.indexOf('http://') === -1 && val.indexOf('https://') === -1) {
+		    val = 'http://' + val;
+		}
+		
+		 $.ajax({
+	         url: "userprofile",
+	         data: {"action":"shortenURL","longUrl":val},
+	         method: "POST",
+	         success: function(){
+	             location.reload();           
+	         },
+	         error: function(){
+	        	 console.log("error sending")
+	         }
+	     });
+	});
 
 }
 
@@ -103,13 +130,14 @@ function urldelete(element){
          data: {"action":"deleteUrl","urlToRemove":element},
          method: "POST",
          success: function(){
-             location.reload();
+             location.reload();           
          },
          error: function(){
         	 console.log("error sending")
          }
      });
 }
-   
+ 
+
 
 $(document).ready(main);

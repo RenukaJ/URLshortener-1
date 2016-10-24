@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import model.DBRequesthandler;
 import model.UserUrlList;
@@ -151,7 +153,6 @@ public class UserProfilePage extends HttpServlet{
 		 String longUrl = request.getParameter("longUrl");
 		 String username = (String) session.getAttribute("username");
 		 String encoded = "";
-		 
 
 			 if(reqHandler.globalurlMappingExists(longUrl)){
 				 encoded  = reqHandler.getShortURl(longUrl);
@@ -163,7 +164,7 @@ public class UserProfilePage extends HttpServlet{
 				 reqHandler.addUrlMappingToUser(username, longUrl, encoded);
 				 reqHandler.addUrlToCountsList(encoded);
 				 reqHandler.addUrltoMappingList(encoded, longUrl);
-			 }
+			 } 
 			 response.sendRedirect("userprofile");
 	}
 	

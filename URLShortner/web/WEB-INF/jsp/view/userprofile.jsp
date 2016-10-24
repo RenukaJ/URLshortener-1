@@ -99,7 +99,7 @@
 		</div>
 		<div class="row">
 			<ul class="list-group">
-			<%int i=0; %>
+				<%int i=0; %>
 				<%
 					if (urlMapping != null) {
 				%>
@@ -122,22 +122,24 @@
 				<li class="list-group-item">
 					<h4>
 						Main URL:<%=longUrl%>
-					</h4> 
-					<a 
+					</h4> <a
 					href="<c:url value="/short/*">
         <c:param name="action" value="gotoUrl"/>
         <c:param name="url" value="<%=shortUrl%>"/>
         </c:url>"><%=shortUrl%></a>
-        
+
 					<span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
 					<div class="btn-toolbar" role="toolbar">
-					<button role="group" type="button" class="btn btn-sm btn-success uSh_copyUrl">
+						<button role="group" type="button"
+							class="btn btn-sm btn-success uSh_copyUrl"
+							onclick="copyToClipboard('<%=shortUrl %>')">
 							<span class="glyphicon glyphicon-copy">&nbsp;Copy</span>
-					</button>
-					<button role="group" 
-							type="button" class="btn btn-sm btn-danger uSh_Deleteurl">
+						</button>
+
+						<button role="group" type="button"
+							class="btn btn-sm btn-danger uSh_Deleteurl">
 							<span class="glyphicon glyphicon-trash">&nbsp;Delete</span>
-					</button>
+						</button>
 					</div>
 
 				</li>
@@ -181,16 +183,29 @@
 		</div>
 	</div>
 
-
-
-
-
-
-
-
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<script>
+		function copyToClipboard(element) {
+
+			var textarea = document.createElement("textarea");
+			textarea.textContent = element;
+			textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in MS Edge.
+			document.body.appendChild(textarea);
+			textarea.select();
+			try {
+				document.execCommand("copy"); // Security exception may be thrown by some browsers.
+			} catch (ex) {
+				console.warn("Copy to clipboard failed.", ex);
+			} finally {
+				alert("Copied ShortUrl to clipboard:" + element);
+				document.body.removeChild(textarea);
+			}
+		}
+	</script>
+
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="js/index.js"></script>

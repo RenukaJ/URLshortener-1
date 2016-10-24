@@ -83,9 +83,13 @@ var main = function () {
 		var index =  $('.list-group .list-group-item').index(this);
 		
 		 var aTag = $('.list-group .list-group-item').children().eq(index).find("a");
-		 alert(aTag.text());
+		 //alert(aTag.text());
 	    
 	});
+	
+	
+
+
 }
 
    

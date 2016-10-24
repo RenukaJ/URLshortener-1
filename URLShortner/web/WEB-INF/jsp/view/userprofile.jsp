@@ -2,17 +2,13 @@
 <%@ page import="java.util.Iterator"%>
 
 <%
-    @SuppressWarnings("unchecked")
-    Map<String, String> urlMapping =
-            (Map<String, String>)request.getAttribute("links");
-
+	@SuppressWarnings("unchecked")
+	Map<String, String> urlMapping = (Map<String, String>) request.getAttribute("links");
 %>
 
 <%
-    @SuppressWarnings("unchecked")
-    Map<String, Integer> urlCount =
-            (Map<String, Integer>)request.getAttribute("linksCount");
-
+	@SuppressWarnings("unchecked")
+	Map<String, Integer> urlCount = (Map<String, Integer>) request.getAttribute("linksCount");
 %>
 
 
@@ -26,10 +22,14 @@
 
 <!-- Bootstrap -->
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!-- Application Specific CSS -->
+<link href="stylesheets/urlShortner.css" rel="stylesheet"
+	type="text/css">
 
 </head>
 <body>
 	<!--  Navbar -->
+
 
 	<nav class="navbar navbar-inverse navbar-fixed-top" id="uSh_navbar">
 		<div class="container-fluid">
@@ -50,10 +50,16 @@
 				id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li id="uSh_logout"><a
-						href="<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>">Logout</a></li>
-
-					<li><h3 id="uSh_username">${username}</h3></li>
+					<li id="uSh_logout"><button onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>'"
+							type="button" class="btn btn-md btn-info" id="uSh_login">
+							<span class="glyphicon glyphicon-log-out"> Logout</span>
+						</button>
+					
+					</li>
+					<li><button type="button" class="btn btn-md btn-warning">
+							<span class="glyphicon glyphicon-user"> ${username}</span>
+						</button>
+						</li>
 				</ul>
 			</div>
 			<!-- /.navbar-collapse -->
@@ -61,42 +67,118 @@
 		<!-- /.container-fluid -->
 	</nav>
 
-	<h1>Welcome ${username}</h1>
 
-	<div class="jumbotron">
-		<div class="col-xs-3"></div>
-		<div class="col-xs-6">
-			<form method="POST"
-				action="<c:url value="/userprofile"><c:param name="action" value="shortenURL" /></c:url>">
-				<div class="input-group">
-					<input type="text" class="form-control" placeholder="URL"
-						aria-describedby="basic-addon2" name="longUrl"> <span
-						class="input-group-addon" id="basic-addon"><input
-						type="submit" value="Submit" /></span>
+	
+
+	<div class="container">
+	<h1>Welcome ${username}</h1>
+		<div class="jumbotron" id="uSh_jumbotron">
+			<div class="row">
+				<div class="col-xs-4">
+					<h3>Get Short URL</h3>
 				</div>
-			</form>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+
+					<form method="POST"
+						action="<c:url value="/userprofile"><c:param name="action" value="shortenURL" /></c:url>">
+						<div class="input-group">
+							<input type="text" class="form-control"
+								placeholder="Your Long Url Here" aria-describedby="basic-addon2"
+								name="longUrl"> <span class=""></span>
+							<div class="input-group-btn">
+								<button type="submit" id="us_convertlongToShort" type="button"
+									class="btn btn-md btn-warning">Get Short URL</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="col-xs-3"></div>
+			</div>
 		</div>
-		<div class="col-xs-3"></div>
-	</div>
-	<%if(urlMapping != null){ %>
-	<% Iterator it = urlMapping.entrySet().iterator(); %>
-	<% while (it.hasNext()) { %>
-	<% Map.Entry pair = (Map.Entry)it.next(); %>
-	<% String shortUrl = (String)pair.getKey(); %>
-	<% String longUrl = (String)pair.getValue(); %>
-	<h4>
-		Main URL:<%=longUrl %>
-	</h4>
-	<a
-		href="<c:url value="/short/*">
+		<div class="row">
+		<ul class="list-group">
+			<%
+				if (urlMapping != null) {
+			%>
+			<%
+				Iterator it = urlMapping.entrySet().iterator();
+			%>
+			<%
+				while (it.hasNext()) {
+			%>
+			<%
+				Map.Entry pair = (Map.Entry) it.next();
+			%>
+			<%
+				String shortUrl = (String) pair.getKey();
+			%>
+			<%
+				String longUrl = (String) pair.getValue();
+			%>
+			 <li class="list-group-item">
+			<h4>
+				Main URL:<%=longUrl%>
+			</h4>
+			<a href="<c:url value="/short/*">
         <c:param name="action" value="gotoUrl"/>
         <c:param name="url" value="<%=shortUrl%>"/>
-        </c:url>"><%= shortUrl%></a>
-	<h5>
-		Count:
-		<%=urlCount.get(shortUrl) %></h5>
-	<%} %>
-	<%} %>
+        </c:url>"><%=shortUrl%></a>
+        <span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
+        <div class="btn-toolbar" role="toolbar" aria-label="...">
+			  <div class="btn-group btn btn-success btn-sm" role="group" ><span class="glyphicon glyphicon-copy">&nbsp;Copy</span></div>
+			  <div class="btn-group btn btn-danger btn-sm" role="group" ><span class="glyphicon glyphicon-trash">&nbsp;Delete</span></div>
+			  
+			</div>
+        
+        	</li>
+			<%
+				}
+			%>
+			<%
+				}
+			%>
+		
+			</ul>
+		</div>
+		<div class="row">
+			<div class="col-sm-4">
+
+				<h3 class="shorten">
+					<span class="glyphicon glyphicon-link">&nbsp;Shorten</span>
+				</h3>
+				<p>Shorten long URLs so it’s ready to be shared everywhere.</p>
+
+			</div>
+
+			<div class="col-sm-4">
+
+				<h3 class="share">
+					<span class="glyphicon glyphicon-share">&nbsp;Share</span>
+				</h3>
+				<p>Share links across all your marketing channels.</p>
+
+			</div>
+
+
+			<div class="col-sm-4">
+
+				<h3 class="analyze">
+					<span class="glyphicon glyphicon-dashboard">&nbsp;Analyze</span>
+				</h3>
+				<p>Analytics help you kn.ow where your clicks are coming from</p>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+
 
 
 
@@ -105,6 +187,7 @@
 		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<script src="js/index.js"></script>
 </body>
 </html>
 

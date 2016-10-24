@@ -43,6 +43,13 @@ var main = function () {
 				urlFailDiv: "#getLongUrlFail",
 				setUrlVal: "#uSh_setlongVal"
 				
+			},
+			userPageUrlList:{
+				handle: "#uSh_userUrlList",
+				longUrl: "#uSh_userLongUrl",
+				shortUrl: "#uSh_userShorturl",
+				copyButton: "#uSh_copy",
+				deleteButton: "#uSh_Delete"
 			}
 
 	};
@@ -59,18 +66,26 @@ var main = function () {
 		$(uSh_handler.showLongUrlCard.urlFailDiv).show();
 		$(uSh_handler.showLongUrlCard.handle).modal("show");
 	}
-	else{
-		$(uSh_handler.showLongUrlCard.urlSuccessDiv).show();
-		$(uSh_handler.showLongUrlCard.urlFailDiv).hide();
-		
-		
-		
-		$(uSh_handler.showLongUrlCard.setUrlVal).text(longUrl);
-		$(uSh_handler.showLongUrlCard.setUrlVal).attr("href", longUrl);
-		$(uSh_handler.showLongUrlCard.handle).modal("show");
+		else{
+			$(uSh_handler.showLongUrlCard.urlSuccessDiv).show();
+			$(uSh_handler.showLongUrlCard.urlFailDiv).hide();
+			
+			
+			
+			$(uSh_handler.showLongUrlCard.setUrlVal).text(longUrl);
+			$(uSh_handler.showLongUrlCard.setUrlVal).attr("href", longUrl);
+			$(uSh_handler.showLongUrlCard.handle).modal("show");
+		}
 	}
-}
-
+	
+	$('.list-group .list-group-item').bind('click', function(){
+		
+		var index =  $('.list-group .list-group-item').index(this);
+		
+		 var aTag = $('.list-group .list-group-item').children().eq(index).find("a");
+		 alert(aTag.text());
+	    
+	});
 }
 
    

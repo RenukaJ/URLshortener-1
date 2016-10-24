@@ -103,6 +103,9 @@ public class UserProfilePage extends HttpServlet{
             case "logout":
                 this.logout(request, response);
                 break;
+            case "deleteUrl":
+            	this.deleteUrlFromUserList(request, response);
+            	break;
             case "shortenURL":
             	this.shortenURL(request, response);
             case "page":
@@ -185,7 +188,6 @@ public class UserProfilePage extends HttpServlet{
 		 request.setAttribute("username", username);
 		 
 		 if(reqHandler.userUrlListExists(username)){
-			 System.out.println(reqHandler.getUserUrlList(username));
 			 request.setAttribute("links", reqHandler.getUserUrlList(username));
 			 request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
 		 }
@@ -200,7 +202,29 @@ public class UserProfilePage extends HttpServlet{
 	}
 	 
 	 
+	 private void deleteUrlFromUserList (HttpServletRequest request, HttpServletResponse response)
+			 throws ServletException, IOException{
+		 /*
 
+		  * a. Get the list object of shortenedUrl for a user
+		  * b. Delete entry from url list object
+		  * c.Send the control over to the userprofileJsp
+		  */
+		 System.out.println("in Delete");
+		 HttpSession session = request.getSession();
+		 String username = (String) session.getAttribute("username");
+		 String urlToRemove = request.getParameter("urlToRemove");
+
+		 if(reqHandler.userUrlListExists(username)){
+			 System.out.println("Map exixts");
+			 reqHandler.deleteUrlFromUserList(username, urlToRemove);
+		 }
+		 request.setAttribute("links", reqHandler.getUserUrlList(username));
+		 request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
+		 
+		 //response.sendRedirect(request.getContextPath() + "/index.jsp");
+	    request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
+	 }
 	
 
 

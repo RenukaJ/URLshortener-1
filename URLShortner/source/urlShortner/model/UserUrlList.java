@@ -2,7 +2,10 @@ package model;
 
 
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Map;
+
+
 
 public class UserUrlList {
 	
@@ -15,6 +18,20 @@ public class UserUrlList {
     
     public void addNewUserListValue(String shortUrl, String longUrl){
     	this.userUrlList.put(shortUrl, longUrl);
+    	
+    }
+    
+    public boolean deleteUserListValue(String urlToRemove){
+    	
+    	for(Iterator<Map.Entry<String, String>> it = userUrlList.entrySet().iterator(); it.hasNext(); ) {
+    	      Map.Entry<String, String> entry = it.next();
+    	      if(entry.getKey().equals(urlToRemove)) {
+    	        it.remove();
+    	        System.out.println("removed");
+    	        return true;
+    	      }
+    	    }
+    	return false;
     	
     }
     

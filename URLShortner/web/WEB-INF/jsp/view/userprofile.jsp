@@ -50,7 +50,7 @@
 				id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav navbar-right">
-					<li id="uSh_logout"><button
+					<li id="uSh_logout"><button method="POST"
 							onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="logout" /></c:url>'"
 							type="button" class="btn btn-md btn-info" id="uSh_login">
 							<span class="glyphicon glyphicon-log-out"> Logout</span>
@@ -99,6 +99,7 @@
 		</div>
 		<div class="row">
 			<ul class="list-group">
+			<%int i=0; %>
 				<%
 					if (urlMapping != null) {
 				%>
@@ -107,6 +108,7 @@
 				%>
 				<%
 					while (it.hasNext()) {
+						i++;
 				%>
 				<%
 					Map.Entry pair = (Map.Entry) it.next();
@@ -120,19 +122,20 @@
 				<li class="list-group-item">
 					<h4>
 						Main URL:<%=longUrl%>
-					</h4> <a
+					</h4> 
+					<a 
 					href="<c:url value="/short/*">
         <c:param name="action" value="gotoUrl"/>
         <c:param name="url" value="<%=shortUrl%>"/>
         </c:url>"><%=shortUrl%></a>
+        
 					<span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
 					<div class="btn-toolbar" role="toolbar">
-					<button role="group" onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="copy" /></c:url>'"
-							type="button" class="btn btn-sm btn-success" id="uSh_copy">
+					<button role="group" type="button" class="btn btn-sm btn-success uSh_copyUrl">
 							<span class="glyphicon glyphicon-copy">&nbsp;Copy</span>
 					</button>
-					<button role="group" onclick="location.href='<c:url value="/userprofile"><c:param name="action" value="delete" /></c:url>'"
-							type="button" class="btn btn-sm btn-danger" id="uSh_Delete">
+					<button role="group" 
+							type="button" class="btn btn-sm btn-danger uSh_Deleteurl">
 							<span class="glyphicon glyphicon-trash">&nbsp;Delete</span>
 					</button>
 					</div>
@@ -193,4 +196,3 @@
 	<script src="js/index.js"></script>
 </body>
 </html>
-

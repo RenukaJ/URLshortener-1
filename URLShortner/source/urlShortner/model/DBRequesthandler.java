@@ -37,6 +37,17 @@ public class DBRequesthandler{
 		return globalmap.getUserUrlList(username);
 	}
 	
+	public boolean deleteUrlFromUserList(String username, String urlToRemove){
+		if(userUrlListExists(username)){
+			System.out.println("Url List exists");
+			UserUrlList urlList = globalmap.getUserUrlhandler(username);
+			if(urlList.deleteUserListValue(urlToRemove)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Map<String, Integer> getGlobalUrlCount(){
 		return globalmap.getGlobalUrlCount();
 	}

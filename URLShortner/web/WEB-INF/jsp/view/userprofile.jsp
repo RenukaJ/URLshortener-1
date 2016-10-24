@@ -137,7 +137,7 @@
 						</button>
 
 						<button role="group" type="button"
-							class="btn btn-sm btn-danger uSh_Deleteurl">
+							class="btn btn-sm btn-danger uSh_Deleteurl" onclick="urldelete('<%=shortUrl %>')">
 							<span class="glyphicon glyphicon-trash">&nbsp;Delete</span>
 						</button>
 					</div>
@@ -177,34 +177,15 @@
 				<h3 class="analyze">
 					<span class="glyphicon glyphicon-dashboard">&nbsp;Analyze</span>
 				</h3>
-				<p>Analytics help you kn.ow where your clicks are coming from</p>
+				<p>Analytics help you know where your clicks are coming from</p>
 
 			</div>
 		</div>
 	</div>
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
-	<script>
-		function copyToClipboard(element) {
-
-			var textarea = document.createElement("textarea");
-			textarea.textContent = element;
-			textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in MS Edge.
-			document.body.appendChild(textarea);
-			textarea.select();
-			try {
-				document.execCommand("copy"); // Security exception may be thrown by some browsers.
-			} catch (ex) {
-				console.warn("Copy to clipboard failed.", ex);
-			} finally {
-				alert("Copied ShortUrl to clipboard:" + element);
-				document.body.removeChild(textarea);
-			}
-		}
-	</script>
 
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<script src="bootstrap/js/bootstrap.min.js"></script>

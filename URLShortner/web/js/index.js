@@ -77,21 +77,39 @@ var main = function () {
 			$(uSh_handler.showLongUrlCard.handle).modal("show");
 		}
 	}
-	
-	$('.list-group .list-group-item').bind('click', function(){
-		
-		var index =  $('.list-group .list-group-item').index(this);
-		
-		 var aTag = $('.list-group .list-group-item').children().eq(index).find("a");
-		 //alert(aTag.text());
-	    
-	});
-	
-	
-
 
 }
 
+function copyToClipboard(element) {
+
+	var textarea = document.createElement("textarea");
+	textarea.textContent = element;
+	textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in MS Edge.
+	document.body.appendChild(textarea);
+	textarea.select();
+	try {
+		document.execCommand("copy"); // Security exception may be thrown by some browsers.
+	} catch (ex) {
+		console.warn("Copy to clipboard failed.", ex);
+	} finally {
+		alert("Copied ShortUrl to clipboard:" + element);
+		document.body.removeChild(textarea);
+	}
+}
+
+function urldelete(element){
+	 $.ajax({
+         url: "userprofile",
+         data: {"action":"deleteUrl","urlToRemove":element},
+         method: "POST",
+         success: function(){
+             location.reload();
+         },
+         error: function(){
+        	 console.log("error sending")
+         }
+     });
+}
    
 
 $(document).ready(main);

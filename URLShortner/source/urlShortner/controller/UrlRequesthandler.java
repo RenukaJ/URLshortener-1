@@ -60,7 +60,7 @@ public class UrlRequesthandler extends HttpServlet{
 				}
 				else{
 					System.out.println("Url does not exist" + shUrl);
-					//redirect to 404 page
+					response.sendRedirect("errorPage");
 				}
 				
 			 }
@@ -80,7 +80,8 @@ public class UrlRequesthandler extends HttpServlet{
 				}
 				else{
 					System.out.println("Url does not exist" + shUrl);
-					//redirect to 404 page
+					//request.getRequestDispatcher("/WEB-INF/jsp/errorPages/error404.jsp").forward(request, response);
+					response.sendRedirect("errorPage");
 				}
 			 }
 }

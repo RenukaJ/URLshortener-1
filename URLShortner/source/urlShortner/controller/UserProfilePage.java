@@ -108,6 +108,7 @@ public class UserProfilePage extends HttpServlet{
             	break;
             case "shortenURL":
             	this.shortenURL(request, response);
+            	break;
             case "page":
             default:
             	this.loadPage(request, response);
@@ -122,8 +123,7 @@ public class UserProfilePage extends HttpServlet{
 		 System.out.println("InLogout");
 		 HttpSession session = request.getSession();
 		 session.invalidate();
-		 request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
-         .forward(request, response);
+		 response.sendRedirect("home");
          return;
 	}
 	 
@@ -164,6 +164,7 @@ public class UserProfilePage extends HttpServlet{
 				 reqHandler.addUrlToCountsList(encoded);
 				 reqHandler.addUrltoMappingList(encoded, longUrl);
 			 }
+			 response.sendRedirect("userprofile");
 	}
 	
 	 
@@ -194,11 +195,10 @@ public class UserProfilePage extends HttpServlet{
 		 else{
 			 request.setAttribute("links", null);
 		 }
-		 
-		 //response.sendRedirect(request.getContextPath() + "/index.jsp");
+		
+		 //;
 	    request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
-	
-		 
+ 
 	}
 	 
 	 
@@ -219,15 +219,10 @@ public class UserProfilePage extends HttpServlet{
 			 System.out.println("Map exixts");
 			 reqHandler.deleteUrlFromUserList(username, urlToRemove);
 		 }
-		 request.setAttribute("links", reqHandler.getUserUrlList(username));
-		 request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
-		 
-		 //response.sendRedirect(request.getContextPath() + "/index.jsp");
-	    request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
+	
+	
+		// response.sendRedirect(request.getContextPath() + "/index.jsp");
+		 response.sendRedirect("userprofile");
 	 }
 	
-
-
-		
-		
 }

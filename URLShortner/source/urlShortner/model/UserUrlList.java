@@ -25,6 +25,7 @@ public class UserUrlList {
     	
     	for(Iterator<Map.Entry<String, String>> it = userUrlList.entrySet().iterator(); it.hasNext(); ) {
     	      Map.Entry<String, String> entry = it.next();
+    	      System.out.println(entry.getKey());
     	      if(entry.getKey().equals(urlToRemove)) {
     	        it.remove();
     	        System.out.println("removed");

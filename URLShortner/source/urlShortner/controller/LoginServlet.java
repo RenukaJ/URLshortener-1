@@ -82,10 +82,27 @@ public class LoginServlet extends HttpServlet
 
 	}
 
-
+/*This Function handles requests to Login*/
 	private void login(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
+		
+		/*
+		 * 1. Get Session
+		 * 2. Check if Username is null
+		 * 	  Yes: return
+		 * 	  No:
+		 * 		1. Get username and password from request parameters
+		 * 		2. Check is username is null or password is null or if the 
+		 * 			given username does not exist or the password does not match the specified Username
+		 * 			YES:
+		 * 				a. Login failed
+		 * 				b. Redirect to home page
+		 * 			No:
+		 * 				a. Set username to user session
+		 * 				b. redirect to userprofile servlet 
+		 * 				
+		 */
 		HttpSession session = request.getSession();
 		if(session.getAttribute("username") != null)
 		{
@@ -112,12 +129,27 @@ public class LoginServlet extends HttpServlet
 
 	}
 
-
-
+	
+	/*This Function handles requests to Login*/	
 	private void signup(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
-		System.out.println("In Signup");
+		/*
+		 * 1. Get Session
+		 * 2. Check if Username is null
+		 * 	  Yes: return
+		 * 	  No:
+		 * 		1. Get username and password from request parameters
+		 * 		2. Check is username is null or password is null or if the 
+		 * 			given username already exists
+		 * 			YES:
+		 * 				a. Signup failed
+		 * 				b. Redirect to home page
+		 * 			No:
+		 * 				a. Set username to user session
+		 * 				b. redirect to userprofile servlet 
+		 * 				
+		 */
 		HttpSession session = request.getSession();
 		if(session.getAttribute("username") != null)
 		{
@@ -126,6 +158,7 @@ public class LoginServlet extends HttpServlet
 
 		String username = request.getParameter("new_username");
 		String password = request.getParameter("new_password");
+		
 		if(username == null || password == null ||
 				LoginServlet.userDatabase.containsKey(username))
 		{

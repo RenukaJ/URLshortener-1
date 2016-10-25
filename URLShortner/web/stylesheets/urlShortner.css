@@ -56,3 +56,8 @@ body {
 .main-url{
 	word-wrap: break-word;
 }
+
+.navbar-brand{
+	font-size: 30px;
+	font-style: italic;
+}

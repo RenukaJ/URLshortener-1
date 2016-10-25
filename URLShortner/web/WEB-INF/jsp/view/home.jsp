@@ -1,5 +1,5 @@
 <% 
-	String longUrl = (String)session.getAttribute("longUrl");
+	String longUrl = (String)request.getAttribute("longUrl");
 	session.removeAttribute("longUrl");
 %>
 

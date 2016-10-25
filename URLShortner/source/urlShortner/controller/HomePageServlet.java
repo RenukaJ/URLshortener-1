@@ -13,6 +13,8 @@ import model.DBRequesthandler;
 
 
 
+
+
 @WebServlet(
         name = "HomePageServlet",
         urlPatterns = {"/home"},
@@ -102,17 +104,12 @@ public class HomePageServlet extends HttpServlet{
 	    		else{
 	    			session.setAttribute("longUrl", "undefined");
 	    			
-	    		}
-	    		
+	    		}		
 	    	}
 	    	else{
 	    		session.setAttribute("longUrl", "undefined");
-	    		session.removeAttribute("action");
 	    	}
-	    	//response.sendRedirect("home");
-	    	request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);
-	    	//response.sendRedirect(request.getContextPath() + "/index.jsp");
-			
+	    	request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);		
 		}
 	    
 	    private void loadHomePage(HttpServletRequest request, HttpServletResponse response)

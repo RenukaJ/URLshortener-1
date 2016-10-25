@@ -43,7 +43,8 @@ var uSh_handler = {
 				handle: "#uSh_showlongUrlModal",
 				urlSuccessDiv: "#getLongUrlSuccess",
 				urlFailDiv: "#getLongUrlFail",
-				setUrlVal: "#uSh_setlongVal"
+				setUrlVal: "#uSh_setlongVal",
+				closeButton: "#uSh_showlongUrlModalClose"
 				
 			},
 			userPageUrlList:{
@@ -88,6 +89,7 @@ var main = function () {
 			$(uSh_handler.loginCard.errorMessage).show();
 			$(uSh_handler.loginCard.handle).modal("show");
 	}
+	
 	var signupFailed = $(uSh_handler.signupCard.getSignupStatus).text();
 	if(signupFailed === "true"){
 		$(uSh_handler.signupCard.errorMessage).show();
@@ -95,6 +97,17 @@ var main = function () {
 	}
 
 	
+	$(uSh_handler.showLongUrlCard.handle).on('hide.bs.modal', function () {
+		console.log("in FUC");
+		$.ajax({
+	        url: "home",
+	        data:{"action":"page"},
+	        method: "POST",
+	        success: function(){
+	                  console.log("ok");  
+	        }
+	    });
+	});
 	
 	$(uSh_handler.jumbotron_longToShort.processButton).click(function(){
 		
@@ -115,6 +128,7 @@ var main = function () {
 	});
 
 }
+
 
 function copyToClipboard(element) {
 
@@ -147,6 +161,18 @@ function urldelete(element){
      });
 }
  
+function callUserServlet(){
+	console.log("in FUC");
+	$.ajax({
+        url: "home",
+        data:{"action":"page"},
+        method: "GET",
+        success: function(){
+            location.reload();           
+        }
+    });
+}
+
 
 
 $(document).ready(main);

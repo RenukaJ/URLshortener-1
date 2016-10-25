@@ -8,28 +8,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+/*
+ * Unhandled requests will be redirected to this servlet
+ */
 @WebServlet(
-        name = "errorHandlingServlet",
-        urlPatterns = "/errorPage"
-)
+		name = "errorHandlingServlet",
+		urlPatterns = "/errorPage"
+		)
 
 public class ErrorHandling extends HttpServlet{
 	@Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException
+	{
 		request.getRequestDispatcher("/WEB-INF/jsp/errorPages/error404.jsp").forward(request, response);
-	
-    }
+	}
 	@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException
+	{
 		request.getRequestDispatcher("/WEB-INF/jsp/errorPages/error404.jsp").forward(request, response);
-	
-    }
-	
-	
 
+	}
 }

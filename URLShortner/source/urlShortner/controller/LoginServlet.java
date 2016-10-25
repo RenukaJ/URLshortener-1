@@ -11,130 +11,136 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
+/*
+ * This servlet handles requests and responses to/from the Home Page for SignUP/Login Requests
+ */
+
 @WebServlet(
-        name = "loginServlet",
-        urlPatterns = "/login"
-)
+		name = "loginServlet",
+		urlPatterns = "/login"
+		)
+
 public class LoginServlet extends HttpServlet
 {
-    protected static final Map<String, String> userDatabase = new Hashtable<>();
+	protected static final Map<String, String> userDatabase = new Hashtable<>();
+	/*Map of existing Users in DB */
 
-    static {
-        userDatabase.put("Nicholas", "password");
-        userDatabase.put("Sarah", "drowssap");
-        userDatabase.put("Mike", "wordpass");
-        userDatabase.put("John", "green");
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-    	System.out.println("loginServlet");
-        HttpSession session = request.getSession();
-        //We might need to remove the first 'if' condition (Please don't remove - Ashish)
-        if(request.getParameter("logout") != null)
-        {
-            session.invalidate();
-            response.sendRedirect("home");
-            return;
-        }
-        else if(session.getAttribute("username") != null)
-        {
-            
-        	response.sendRedirect("userprofile");
-            return;
-        }
-        
-        request.setAttribute("loginFailed", false);
-	     request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
-	               .forward(request, response);
-        
-        
-        
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
-    	
-    	
-    	String action = request.getParameter("action");
-        if(action == null)
-            action = "page";
-        switch(action)
-        {
-            case "login":
-                this.login(request, response);
-                break;
-            case "signup":
-            default:
-            	this.signup(request, response);
-                break;
-        }
-        
-    }
-    
-    
-    private void login(HttpServletRequest request, HttpServletResponse response)
-			 throws ServletException, IOException
-	{
-    	HttpSession session = request.getSession();
-        if(session.getAttribute("username") != null)
-        {
-            return;
-        }
-
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        if(username == null || password == null ||
-                !LoginServlet.userDatabase.containsKey(username) ||
-                !password.equals(LoginServlet.userDatabase.get(username)))
-        {
-            request.setAttribute("loginFailed", "true");
-            request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
-                   .forward(request, response);
-            
-        }
-        else
-        {
-            session.setAttribute("username", username);
-            request.changeSessionId();
-            response.sendRedirect("userprofile");
-        }
-	     
+	static {
+		userDatabase.put("Nicholas", "password");
+		userDatabase.put("Sarah", "drowssap");
+		userDatabase.put("Mike", "wordpass");
+		userDatabase.put("John", "green");
 	}
-    
-    
-    
-    private void signup(HttpServletRequest request, HttpServletResponse response)
-			 throws ServletException, IOException
-	{
-    	System.out.println("In Signup");
-    	HttpSession session = request.getSession();
-        if(session.getAttribute("username") != null)
-        {
-            return;
-        }
 
-        String username = request.getParameter("new_username");
-        String password = request.getParameter("new_password");
-        if(username == null || password == null ||
-                LoginServlet.userDatabase.containsKey(username))
-        {
-            request.setAttribute("signupFailed", "true");
-            request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
-                   .forward(request, response);
-            
-        }
-        else
-        {
-        	userDatabase.put(username, password);
-            session.setAttribute("username", username);
-            request.changeSessionId();
-            response.sendRedirect("userprofile");
-        }
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException
+	{
+		System.out.println("loginServlet");
+		HttpSession session = request.getSession();
+
+		/*This part handles the actions which can happen on the home page*/
+		if(request.getParameter("logout") != null)
+		{
+			session.invalidate();
+			response.sendRedirect("home");
+			return;
+		}
+		else if(session.getAttribute("username") != null)
+		{
+
+			response.sendRedirect("userprofile");
+			return;
+		}
+
+		request.setAttribute("loginFailed", false);
+		request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
+		.forward(request, response);
+
 	}
-  
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException
+	{
+
+		/*This part handles the actions which can happen on the home page*/
+		String action = request.getParameter("action");
+		if(action == null)
+			action = "page";
+		switch(action)
+		{
+		case "login":
+			this.login(request, response);
+			break;
+		case "signup":
+		default:
+			this.signup(request, response);
+			break;
+		}
+
+	}
+
+
+	private void login(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException
+	{
+		HttpSession session = request.getSession();
+		if(session.getAttribute("username") != null)
+		{
+			return;
+		}
+
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		if(username == null || password == null ||
+				!LoginServlet.userDatabase.containsKey(username) ||
+				!password.equals(LoginServlet.userDatabase.get(username)))
+		{
+			request.setAttribute("loginFailed", "true");
+			request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
+			.forward(request, response);
+
+		}
+		else
+		{
+			session.setAttribute("username", username);
+			request.changeSessionId();
+			response.sendRedirect("userprofile");
+		}
+
+	}
+
+
+
+	private void signup(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException
+	{
+		System.out.println("In Signup");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("username") != null)
+		{
+			return;
+		}
+
+		String username = request.getParameter("new_username");
+		String password = request.getParameter("new_password");
+		if(username == null || password == null ||
+				LoginServlet.userDatabase.containsKey(username))
+		{
+			request.setAttribute("signupFailed", "true");
+			request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
+			.forward(request, response);
+
+		}
+		else
+		{
+			userDatabase.put(username, password);
+			session.setAttribute("username", username);
+			request.changeSessionId();
+			response.sendRedirect("userprofile");
+		}
+	}
+
 }

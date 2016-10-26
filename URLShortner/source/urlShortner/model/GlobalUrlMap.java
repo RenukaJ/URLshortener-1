@@ -42,7 +42,7 @@ public class GlobalUrlMap extends HttpServlet{
 	
 	public boolean validateUser(String username, String password){
 		if(username == null || password == null ||
-					userDatabase.containsKey(username) ||
+					!userDatabase.containsKey(username) ||
 				!password.equals(userDatabase.get(username)))
 		{
 			return false;

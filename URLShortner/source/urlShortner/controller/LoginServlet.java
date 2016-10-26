@@ -106,7 +106,7 @@ public class LoginServlet extends HttpServlet
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
-		if(reqHandler.validateUsersFromDB(username, password)){
+		if(!reqHandler.validateUsersFromDB(username, password)){
 			session.setAttribute("loginFailed", "true");
 			response.sendRedirect("home");
 		}

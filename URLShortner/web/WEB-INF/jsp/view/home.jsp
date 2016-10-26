@@ -5,10 +5,12 @@
 
 <% 
 	String loginFailed = (String)session.getAttribute("loginFailed");
+	session.removeAttribute("loginFailed");
 %>
 
 <% 
 	String signupFailed = (String)session.getAttribute("signupFailed");
+	session.removeAttribute("signupFailed");
 %>
 
 <!DOCTYPE html>

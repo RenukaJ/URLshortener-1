@@ -1,0 +1,8 @@
+controller\LoginServlet.class
+model\UserUrlList.class
+model\GlobalUrlMap.class
+controller\HomePageServlet.class
+model\DBRequesthandler.class
+controller\UrlRequesthandler.class
+controller\UserProfilePage.class
+controller\ErrorHandling.class

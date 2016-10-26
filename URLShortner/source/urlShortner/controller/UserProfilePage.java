@@ -193,7 +193,7 @@ public class UserProfilePage extends HttpServlet{
 		else{
 			request.setAttribute("links", null);
 		}
-
+		
 		request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
 
 	}

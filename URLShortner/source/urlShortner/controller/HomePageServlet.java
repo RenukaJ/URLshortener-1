@@ -113,20 +113,22 @@ public class HomePageServlet extends HttpServlet{
 		 *		b. Forward the request to home.jsp 
 		 */
 		String shUrl = request.getParameter("shortUrl");
-
+		HttpSession session = request.getSession();
+		
 		if(shUrl.startsWith("http://localhost:8080/URLShortner/")){
 			if(reqHandler.shortUrlexists(shUrl)){
 				String longUrl = reqHandler.getLongUrl(shUrl);
-				request.setAttribute("longUrl", longUrl);
+				session.setAttribute("longUrl", longUrl);
 			}
 			else{
-				request.setAttribute("longUrl", "undefined");	
+				session.setAttribute("longUrl", "undefined");	
 			}		
 		}
 		else{
-			request.setAttribute("longUrl", "undefined");
+			session.setAttribute("longUrl", "undefined");
 		}
-		request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);		
+		//request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);	
+		response.sendRedirect("home");
 	}
 
 	/*Responsible for rendering requests to the home.jsp page*/

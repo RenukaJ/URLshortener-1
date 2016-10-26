@@ -11,10 +11,6 @@
 	Map<String, Integer> urlCount = (Map<String, Integer>) request.getAttribute("linksCount");
 %>
 
-<%
-	String errorinLongUrl =  (String) request.getAttribute("errorinUrl");
-%>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -105,7 +101,6 @@
 							</div>
 						</div>
 					</form>
-					<p hidden id="errorLToS"><%= errorinLongUrl %></p>
 				</div>
 				<div class="col-xs-3"></div>
 			</div>

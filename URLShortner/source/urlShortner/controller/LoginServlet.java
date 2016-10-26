@@ -115,10 +115,8 @@ public class LoginServlet extends HttpServlet
 				!LoginServlet.userDatabase.containsKey(username) ||
 				!password.equals(LoginServlet.userDatabase.get(username)))
 		{
-			request.setAttribute("loginFailed", "true");
-			request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
-			.forward(request, response);
-
+			session.setAttribute("loginFailed", "true");
+			response.sendRedirect("home");
 		}
 		else
 		{
@@ -162,10 +160,8 @@ public class LoginServlet extends HttpServlet
 		if(username == null || password == null ||
 				LoginServlet.userDatabase.containsKey(username))
 		{
-			request.setAttribute("signupFailed", "true");
-			request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp")
-			.forward(request, response);
-
+			session.setAttribute("signupFailed", "true");
+			response.sendRedirect("home");
 		}
 		else
 		{

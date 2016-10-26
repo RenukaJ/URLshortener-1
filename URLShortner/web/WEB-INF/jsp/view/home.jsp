@@ -1,14 +1,14 @@
 <% 
-	String longUrl = (String)request.getAttribute("longUrl");
+	String longUrl = (String)session.getAttribute("longUrl");
 	session.removeAttribute("longUrl");
 %>
 
 <% 
-	String loginFailed = (String)request.getAttribute("loginFailed");
+	String loginFailed = (String)session.getAttribute("loginFailed");
 %>
 
 <% 
-	String signupFailed = (String)request.getAttribute("signupFailed");
+	String signupFailed = (String)session.getAttribute("signupFailed");
 %>
 
 <!DOCTYPE html>

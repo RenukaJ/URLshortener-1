@@ -103,4 +103,11 @@ public class DBRequesthandler{
 		return "http://localhost:8080/URLShortner/short/" +encodedUrl;
 	
 	}
+	
+	public boolean validateUsersFromDB(String username, String password){
+		return (globalmap.validateUser(username, password));
+	}
+	public boolean addNewUserToDB(String username, String password){
+		return (globalmap.addNewUserToDB(username, password));
+	}
 }

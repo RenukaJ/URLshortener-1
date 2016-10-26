@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import model.DBRequesthandler;
+
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
@@ -22,17 +25,8 @@ import java.util.Map;
 
 public class LoginServlet extends HttpServlet
 {
-	protected static final Map<String, String> userDatabase = new Hashtable<>();
-	/*Map of existing Users in DB */
-
-	static {
-		userDatabase.put("Nicholas", "password");
-		userDatabase.put("Sarah", "drowssap");
-		userDatabase.put("Mike", "wordpass");
-		userDatabase.put("John", "green");
-	}
-
-
+	DBRequesthandler reqHandler = new DBRequesthandler();
+	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
@@ -111,15 +105,12 @@ public class LoginServlet extends HttpServlet
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		if(username == null || password == null ||
-				!LoginServlet.userDatabase.containsKey(username) ||
-				!password.equals(LoginServlet.userDatabase.get(username)))
-		{
+		
+		if(reqHandler.validateUsersFromDB(username, password)){
 			session.setAttribute("loginFailed", "true");
 			response.sendRedirect("home");
 		}
-		else
-		{
+		else{
 			session.setAttribute("username", username);
 			request.changeSessionId();
 			response.sendRedirect("userprofile");
@@ -157,19 +148,16 @@ public class LoginServlet extends HttpServlet
 		String username = request.getParameter("new_username");
 		String password = request.getParameter("new_password");
 		
-		if(username == null || password == null ||
-				LoginServlet.userDatabase.containsKey(username))
-		{
+		if(!reqHandler.addNewUserToDB(username, password)){
 			session.setAttribute("signupFailed", "true");
 			response.sendRedirect("home");
 		}
-		else
-		{
-			userDatabase.put(username, password);
+		else{
 			session.setAttribute("username", username);
 			request.changeSessionId();
 			response.sendRedirect("userprofile");
 		}
+		
 	}
 
 }

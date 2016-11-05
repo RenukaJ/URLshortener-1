@@ -39,11 +39,6 @@
    
    <bean name="ErrorHandlingServletBean" class="controller.ErrorHandling">
    </bean>
-   
-   
-   
-   
-     
-      
+    
 </beans>
 

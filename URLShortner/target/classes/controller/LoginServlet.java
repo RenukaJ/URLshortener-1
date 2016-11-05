@@ -29,20 +29,21 @@ import java.util.Map;
 		name = "loginServlet",
 		urlPatterns = "/login"
 		)
+
 @Controller
 public class LoginServlet extends HttpServlet
 {
 	//DBRequesthandler reqHandler = new DBRequesthandler();
 	@Autowired
 	private AuthDao authentication;
-	
+
 	@Override
 	public void init(ServletConfig config) throws ServletException{
 		super.init(config);
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		
+
 	}
-	
+
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -124,32 +125,18 @@ public class LoginServlet extends HttpServlet
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		
-		
+
+
 		if(username==null || password == null || !authentication.loginUser(username, password)){
 			session.setAttribute("loginFailed", "true");
 			response.sendRedirect("home");
-			
-		}
-		else{
-			session.setAttribute("username", username);
-			request.changeSessionId();
-			response.sendRedirect("userprofile");
-		}
-		
-		
-/*
-		if(!reqHandler.validateUsersFromDB(username, password)){
-			session.setAttribute("loginFailed", "true");
-			response.sendRedirect("home");
-		}
-		else{
-			session.setAttribute("username", username);
-			request.changeSessionId();
-			response.sendRedirect("userprofile");
-		}
-		*/
 
+		}
+		else{
+			session.setAttribute("username", username);
+			request.changeSessionId();
+			response.sendRedirect("userprofile");
+		}
 	}
 
 
@@ -159,9 +146,9 @@ public class LoginServlet extends HttpServlet
 	{
 		System.out.println("In Sign Up !");
 		//this.authentication = authentication;
-		
+
 		System.out.println(authentication);
-		
+
 		/*
 		 * 1. Get Session
 		 * 2. Check if Username is null
@@ -186,7 +173,7 @@ public class LoginServlet extends HttpServlet
 
 		String username = request.getParameter("new_username");
 		String password = request.getParameter("new_password");
-		
+
 		if(username==null || password == null ||!authentication.signupUsr(username, password)){
 			session.setAttribute("signupFailed", "true");
 			response.sendRedirect("home");
@@ -196,29 +183,11 @@ public class LoginServlet extends HttpServlet
 			request.changeSessionId();
 			response.sendRedirect("userprofile");
 		}
-		
-		
-		
-		
-/*
-		if(!reqHandler.addNewUserToDB(username, password)){
-			session.setAttribute("signupFailed", "true");
-			response.sendRedirect("home");
-		}
-		else{
-			session.setAttribute("username", username);
-			request.changeSessionId();
-			response.sendRedirect("userprofile");
-		}
-	*/
-		
-
 	}
-	
-	 public void setAuthentication(AuthDao authentication)
-	    {
-	        this.authentication = authentication;
-	        System.out.println(authentication);
-	    }
+
+	public void setAuthentication(AuthDao authentication)
+	{
+		this.authentication = authentication;
+	}
 
 }

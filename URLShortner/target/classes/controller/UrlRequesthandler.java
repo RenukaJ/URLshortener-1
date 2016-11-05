@@ -55,9 +55,9 @@ public class UrlRequesthandler extends HttpServlet{
 		 * 1. Get URL from request parameters
 		 * 2. Check if the short URL exists in DB
 		 * 		2.a YES
-		 * 			1. Get the corresponding long url
-		 * 			2. Add the count for URL vists
-		 * 			3. Try to make a coonection the the Long/original URL
+		 * 			1. Get the corresponding long URL
+		 * 			2. Add the count for URL visits
+		 * 			3. Try to make a connection the the Long/original URL
 		 * 			4. Get response code
 		 * 			5. Check if Response Code is 22
 		 * 				YES:

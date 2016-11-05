@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -24,7 +27,7 @@ import model.UserUrlList;
 		)
 
 /**************Check logout belongs to get or post**************/
-
+@Controller
 public class UserProfilePage extends HttpServlet{
 
 	DBRequesthandler reqHandler = new DBRequesthandler();
@@ -145,7 +148,6 @@ public class UserProfilePage extends HttpServlet{
 		 *  	Add URL to Global urlCount and initialize it to 0
 		 *  	Add URL to Global urlMapping
 		 */
-
 		HttpSession session = request.getSession();
 		String longUrl = request.getParameter("longUrl");
 		String username = (String) session.getAttribute("username");

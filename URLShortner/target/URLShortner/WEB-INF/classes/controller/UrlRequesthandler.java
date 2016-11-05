@@ -9,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+
 import model.DBRequesthandler;
 
 /*
@@ -18,7 +21,7 @@ import model.DBRequesthandler;
 		name = "shortURLHandler",
 		urlPatterns = "/short/*"
 		)
-
+@Controller
 public class UrlRequesthandler extends HttpServlet{
 
 	DBRequesthandler reqHandler = new DBRequesthandler();

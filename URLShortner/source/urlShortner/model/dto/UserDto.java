@@ -1,6 +1,9 @@
 package model.dto;
 
-public class UserDto {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class UserDto{
 	private Integer userID;
 	private String username;
 	private String password;
@@ -8,6 +11,8 @@ public class UserDto {
 	/*
 	 * Setter methods
 	 */
+
+	
 	public void setID(Integer userID){
 		this.userID = userID;
 	}

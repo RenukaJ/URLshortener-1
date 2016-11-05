@@ -1,6 +1,8 @@
 package controller;
 
+import model.dao.AuthDao;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,7 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import model.DBRequesthandler;
+import model.dao.AuthDao;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -22,10 +29,20 @@ import java.util.Map;
 		name = "loginServlet",
 		urlPatterns = "/login"
 		)
-
+@Controller
 public class LoginServlet extends HttpServlet
 {
-	DBRequesthandler reqHandler = new DBRequesthandler();
+	//DBRequesthandler reqHandler = new DBRequesthandler();
+	@Autowired
+	private AuthDao authentication;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException{
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+		
+	}
+	
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -66,18 +83,20 @@ public class LoginServlet extends HttpServlet
 		switch(action)
 		{
 		case "login":
-			this.login(request, response);
+			System.out.println(authentication);
+			this.login(request, response, authentication);
 			break;
 		case "signup":
 		default:
-			this.signup(request, response);
+			System.out.println(authentication);
+			this.signup(request, response, authentication);
 			break;
 		}
 
 	}
 
 	/*This Function handles requests to Login*/
-	private void login(HttpServletRequest request, HttpServletResponse response)
+	private void login(HttpServletRequest request, HttpServletResponse response, AuthDao authentication)
 			throws ServletException, IOException
 	{
 
@@ -105,7 +124,21 @@ public class LoginServlet extends HttpServlet
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-
+		
+		
+		if(username==null || password == null || !authentication.loginUser(username, password)){
+			session.setAttribute("loginFailed", "true");
+			response.sendRedirect("home");
+			
+		}
+		else{
+			session.setAttribute("username", username);
+			request.changeSessionId();
+			response.sendRedirect("userprofile");
+		}
+		
+		
+/*
 		if(!reqHandler.validateUsersFromDB(username, password)){
 			session.setAttribute("loginFailed", "true");
 			response.sendRedirect("home");
@@ -115,14 +148,20 @@ public class LoginServlet extends HttpServlet
 			request.changeSessionId();
 			response.sendRedirect("userprofile");
 		}
+		*/
 
 	}
 
 
 	/*This Function handles requests to Login*/	
-	private void signup(HttpServletRequest request, HttpServletResponse response)
+	private void signup(HttpServletRequest request, HttpServletResponse response,AuthDao authentication )
 			throws ServletException, IOException
 	{
+		System.out.println("In Sign Up !");
+		//this.authentication = authentication;
+		
+		System.out.println(authentication);
+		
 		/*
 		 * 1. Get Session
 		 * 2. Check if Username is null
@@ -147,7 +186,21 @@ public class LoginServlet extends HttpServlet
 
 		String username = request.getParameter("new_username");
 		String password = request.getParameter("new_password");
-
+		
+		if(username==null || password == null ||!authentication.signupUsr(username, password)){
+			session.setAttribute("signupFailed", "true");
+			response.sendRedirect("home");
+		}
+		else{
+			session.setAttribute("username", username);
+			request.changeSessionId();
+			response.sendRedirect("userprofile");
+		}
+		
+		
+		
+		
+/*
 		if(!reqHandler.addNewUserToDB(username, password)){
 			session.setAttribute("signupFailed", "true");
 			response.sendRedirect("home");
@@ -157,7 +210,15 @@ public class LoginServlet extends HttpServlet
 			request.changeSessionId();
 			response.sendRedirect("userprofile");
 		}
+	*/
+		
 
 	}
+	
+	 public void setAuthentication(AuthDao authentication)
+	    {
+	        this.authentication = authentication;
+	        System.out.println(authentication);
+	    }
 
 }

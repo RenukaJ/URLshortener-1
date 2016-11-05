@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Controller;
+
 import model.DBRequesthandler;
 
 
@@ -23,6 +25,7 @@ import model.DBRequesthandler;
 		loadOnStartup = 1
 		)
 
+@Controller
 public class HomePageServlet extends HttpServlet{
 	DBRequesthandler reqHandler = new DBRequesthandler();
 

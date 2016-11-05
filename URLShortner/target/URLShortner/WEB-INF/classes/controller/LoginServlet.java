@@ -8,7 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.stereotype.Controller;
+
 import model.DBRequesthandler;
+import model.dao.AuthenticationDao;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -22,10 +25,11 @@ import java.util.Map;
 		name = "loginServlet",
 		urlPatterns = "/login"
 		)
-
+@Controller
 public class LoginServlet extends HttpServlet
 {
 	DBRequesthandler reqHandler = new DBRequesthandler();
+	private AuthenticationDao authentication;
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -147,7 +151,13 @@ public class LoginServlet extends HttpServlet
 
 		String username = request.getParameter("new_username");
 		String password = request.getParameter("new_password");
-
+		this.authentication.createNewUser(username, password);
+		session.setAttribute("username", username);
+		request.changeSessionId();
+		response.sendRedirect("userprofile");
+		
+		
+/*
 		if(!reqHandler.addNewUserToDB(username, password)){
 			session.setAttribute("signupFailed", "true");
 			response.sendRedirect("home");
@@ -157,6 +167,8 @@ public class LoginServlet extends HttpServlet
 			request.changeSessionId();
 			response.sendRedirect("userprofile");
 		}
+	*/
+		
 
 	}
 

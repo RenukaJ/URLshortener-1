@@ -24,6 +24,15 @@
    <property name="dataSource"  ref="basicDataSource" />   
    </bean>
    
+    <bean name="globalURLDaoImpl" class="model.dao.GlobalURLDaoImpl">
+   <property name="dataSource"  ref="basicDataSource" />   
+   </bean>
+   
+   <bean name="userURLDaoImpl" class="model.dao.UserURLDaoImpl">
+   <property name="dataSource"  ref="basicDataSource" />   
+   </bean>
+   
+   
    <bean name="loginServletBean" class="controller.LoginServlet">
    	<property name="authentication" ref="authImpl"/>
    </bean>
@@ -32,6 +41,8 @@
    </bean>
    
    <bean name="UserProfilePageServletBean" class="controller.UserProfilePage">
+   <property name="globalurlDao" ref="globalURLDaoImpl"></property>
+   <property name="userurlDao" ref="userURLDaoImpl"></property>
    </bean>
    
    <bean name="HomePageServletBean" class="controller.HomePageServlet">

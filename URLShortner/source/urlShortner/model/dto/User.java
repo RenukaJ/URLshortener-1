@@ -1,10 +1,7 @@
 package model.dto;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class UserDto{
-	private Integer userID;
+public class User{
+	private Integer userid;
 	private String username;
 	private String password;
 	
@@ -13,8 +10,8 @@ public class UserDto{
 	 */
 
 	
-	public void setID(Integer userID){
-		this.userID = userID;
+	public void setID(Integer userid){
+		this.userid = userid;
 	}
 	
 	public void setUserName(String username){
@@ -28,7 +25,7 @@ public class UserDto{
 	 * Getter Methods
 	 */
 	public Integer getID(){
-		return this.userID;
+		return this.userid;
 	}
 	
 	public String getUserName(){

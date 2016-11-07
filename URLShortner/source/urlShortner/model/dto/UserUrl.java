@@ -1,7 +1,7 @@
 package model.dto;
 
-public class UserUrlDto {
-	private Integer id; //unclear about this ID - WIll depend on DB Structure
+public class UserUrl {
+	private Integer urlid; //unclear about this ID - WIll depend on DB Structure
 	private String shortUrl;
 	private String longUrl;
 	

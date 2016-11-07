@@ -1,10 +1,12 @@
 package controller;
 
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,15 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import model.DBRequesthandler;
-import model.UserUrlList;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 
+import model.dto.UserUrl;
+import model.dao.*;
+import model.dto.*;
 @WebServlet(
 		name = "UserProfileServlet",
 		urlPatterns = "/userprofile"
@@ -30,7 +31,25 @@ import model.UserUrlList;
 @Controller
 public class UserProfilePage extends HttpServlet{
 
-	DBRequesthandler reqHandler = new DBRequesthandler();
+	//DBRequesthandler reqHandler = new DBRequesthandler();
+	@Autowired
+	private GlobalURLDao globalurlDao;
+	@Autowired
+	private UserURLDao userurlDao;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException{
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+
+	}
+	
+	public void setGlobalurlDao(GlobalURLDao globalurlDao){
+		this.globalurlDao = globalurlDao;
+	}
+	public void setUserurlDao(UserURLDao userurlDao){
+		this.userurlDao = userurlDao;
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -151,8 +170,24 @@ public class UserProfilePage extends HttpServlet{
 		HttpSession session = request.getSession();
 		String longUrl = request.getParameter("longUrl");
 		String username = (String) session.getAttribute("username");
-		String encoded = "";
 
+		UrlMappingList urlList = globalurlDao.getshortURL(longUrl);
+		if(urlList == null){
+			String shortUrl = globalurlDao.addNewValueToGlobalURLList(longUrl);
+			if(shortUrl != null){
+				userurlDao.addUrlToUserList(username, shortUrl, longUrl);
+				response.sendRedirect("userprofile");
+			}
+			else{
+				System.out.println("Something went wrong in processing the long URL");
+			}
+			
+		}
+		else{
+			userurlDao.addUrlToUserList(username, urlList.getShortUrl(), longUrl);
+		}
+		
+		/*
 		if(reqHandler.globalurlMappingExists(longUrl)){
 			encoded  = reqHandler.getShortURl(longUrl);
 			reqHandler.addUrlMappingToUser(username, longUrl, encoded);
@@ -165,6 +200,7 @@ public class UserProfilePage extends HttpServlet{
 			reqHandler.addUrltoMappingList(encoded, longUrl);
 		} 
 		response.sendRedirect("userprofile");
+		*/
 	}
 
 
@@ -184,10 +220,11 @@ public class UserProfilePage extends HttpServlet{
 		 */
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
-
-
 		request.setAttribute("username", username);
-
+		//UserUrl userurl = userurlDao.getUserUrlList(username);
+		
+		
+/*
 		if(reqHandler.userUrlListExists(username)){
 			request.setAttribute("links", reqHandler.getUserUrlList(username));
 			request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
@@ -195,7 +232,7 @@ public class UserProfilePage extends HttpServlet{
 		else{
 			request.setAttribute("links", null);
 		}
-
+*/
 		request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
 
 	}
@@ -212,10 +249,11 @@ public class UserProfilePage extends HttpServlet{
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
 		String urlToRemove = request.getParameter("urlToRemove");
-
+/*
 		if(reqHandler.userUrlListExists(username)){
 			reqHandler.deleteUrlFromUserList(username, urlToRemove);
 		}
+		*/
 		response.sendRedirect("userprofile");
 	}
 

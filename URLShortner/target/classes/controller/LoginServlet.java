@@ -20,7 +20,7 @@ import model.dao.AuthDao;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
-
+import model.dto.User;
 /*
  * This servlet handles requests and responses to/from the Home Page for SignUP/Login Requests
  */
@@ -43,6 +43,12 @@ public class LoginServlet extends HttpServlet
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 
 	}
+	public void setAuthentication(AuthDao authentication)
+	{
+		this.authentication = authentication;
+	}
+
+	
 
 
 	@Override
@@ -126,16 +132,23 @@ public class LoginServlet extends HttpServlet
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
-
-		if(username==null || password == null || !authentication.loginUser(username, password)){
-			session.setAttribute("loginFailed", "true");
-			response.sendRedirect("home");
-
-		}
-		else{
-			session.setAttribute("username", username);
-			request.changeSessionId();
-			response.sendRedirect("userprofile");
+		if(username!=null && password != null){
+			User user = authentication.loginUser(username, password);
+			if(user == null){
+				session.setAttribute("loginFailed", "Enter valid detials !");
+				response.sendRedirect("home");
+			}
+			else{
+				if(password.equals(user.getPassword())){
+					session.setAttribute("username", username);
+					request.changeSessionId();
+					response.sendRedirect("userprofile");
+				}
+				else{
+					session.setAttribute("loginFailed", "Username or Password is incorrect !");
+					response.sendRedirect("home");
+				}
+			}
 		}
 	}
 
@@ -185,9 +198,5 @@ public class LoginServlet extends HttpServlet
 		}
 	}
 
-	public void setAuthentication(AuthDao authentication)
-	{
-		this.authentication = authentication;
-	}
-
+	
 }

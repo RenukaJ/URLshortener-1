@@ -1,9 +1,11 @@
+<%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.Iterator"%>
+<%@ page import="model.dto.UserUrl"%>
 
 <%
 	@SuppressWarnings("unchecked")
-	Map<String, String> urlMapping = (Map<String, String>) request.getAttribute("links");
+	List<UserUrl> urlMapping = (List<UserUrl>) request.getAttribute("links");
 %>
 
 <%
@@ -110,26 +112,30 @@
 		<div class="row">
 			<ul class="list-group">
 				<%
-					int i = 0;
+					if (urlMapping == null) {
+				%>
+				<h4> Nothing to show</h4>
+				<%
+					}
 				%>
 				<%
 					if (urlMapping != null) {
 				%>
+				<h4> Something to show</h4>
 				<%
-					Iterator it = urlMapping.entrySet().iterator();
+					Iterator it = urlMapping.iterator();
 				%>
 				<%
 					while (it.hasNext()) {
-							i++;
 				%>
 				<%
-					Map.Entry pair = (Map.Entry) it.next();
+					UserUrl entry =  (UserUrl)it.next();
 				%>
 				<%
-					String shortUrl = (String) pair.getKey();
+					String shortUrl = (String) entry.getShortUrl();
 				%>
 				<%
-					String longUrl = (String) pair.getValue();
+					String longUrl = (String) entry.getLongUrl();
 				%>
 				<li class="list-group-item">
 					<h4>

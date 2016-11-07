@@ -1,4 +1,6 @@
 package model.dao;
+import java.util.List;
+
 import model.dto.UserUrl;
 public interface UserURLDao {
 	/*
@@ -6,7 +8,7 @@ public interface UserURLDao {
 	 */
 	public void addUrlToUserList(String username, String shortUrl, String LongUrl);
 	public void deleteUserListValue(String urlToRemove);
-	public <UserUrl> List<UserUrl> getUserUrlList(String username);
+	public List<UserUrl> getUserUrlList(String username);
 	public boolean checkIfUrlExistsForUser(int userid, String shortUrl);
 	public int getUserId(String username);
 

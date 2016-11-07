@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class UserURLDaoImpl implements UserURLDao{
 	public void deleteUserListValue(String urlToRemove){
 
 	}
-	
+
 	public int getUserId(String username){
 		String SQL = "select userid from Users where username = (?)";
 		Object[] params = new Object[] { username };
@@ -81,24 +82,32 @@ public class UserURLDaoImpl implements UserURLDao{
 			return 0;
 		}
 	}
-	
-	public <UserUrl> List<UserUrl> getUserUrlList(String username){
+
+	public List<UserUrl> getUserUrlList(String username){
 		int userid = getUserId(username);
 		///////if-else for userid = 0
-		String SQL = "select shortUrl from UserUrlList where userid = (?)";
+		String SQL = "select shortUrl, longUrl from UserUrlList where userid = (?)";
 		Object[] params = new Object[] { userid };
-		UserUrlMapper userurlMap = new UserUrlMapper();
 		try{
-			<UserUrl> List<UserUrl> userurl  = this.jdbcTemplateObject.queryForList(SQL, params, userurlMap);
-			return userurl;
+
+			List<UserUrl> userurls = new ArrayList<UserUrl>();
+			List<Map<String, Object>> rows = jdbcTemplateObject.queryForList(SQL, params);
+
+			for (Map row : rows) {
+				UserUrl userUrl = new UserUrl();
+				userUrl.setShortUrl(String.valueOf(row.get("shortUrl")));
+				userUrl.setLongUrl(String.valueOf(row.get("longUrl")));
+				userurls.add(userUrl);
+			}
+			return userurls;
 		}
 		catch(Exception e){
 			System.out.println("Error in retrieving user Url list");
 			return null;
 		}
 	}
-	
-	
+
+
 
 	public boolean checkIfUrlExistsForUser(int userid, String shortUrl){
 

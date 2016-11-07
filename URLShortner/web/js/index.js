@@ -95,7 +95,6 @@ var main = function () {
 
 
 	$(uSh_handler.showLongUrlCard.handle).on('hide.bs.modal', function () {
-		console.log("in FUC");
 		$.ajax({
 			url: "home",
 			data:{"action":"page"},
@@ -159,7 +158,6 @@ function urldelete(element){
 }
 
 function callUserServlet(){
-	console.log("in FUC");
 	$.ajax({
 		url: "home",
 		data:{"action":"page"},

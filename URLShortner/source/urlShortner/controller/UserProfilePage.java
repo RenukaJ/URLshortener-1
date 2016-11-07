@@ -3,6 +3,7 @@ package controller;
 import java.io.IOException;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -221,9 +222,15 @@ public class UserProfilePage extends HttpServlet{
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
 		request.setAttribute("username", username);
-		//UserUrl userurl = userurlDao.getUserUrlList(username);
-		
-		
+		List<UserUrl> userurl = userurlDao.getUserUrlList(username);
+		if(userurl != null){
+			System.out.println("Pasing values");
+			request.setAttribute("links", userurl);
+		}
+		else{
+			request.setAttribute("links", null);
+		}
+		request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
 /*
 		if(reqHandler.userUrlListExists(username)){
 			request.setAttribute("links", reqHandler.getUserUrlList(username));
@@ -233,7 +240,7 @@ public class UserProfilePage extends HttpServlet{
 			request.setAttribute("links", null);
 		}
 */
-		request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
+		
 
 	}
 

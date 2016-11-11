@@ -7,4 +7,5 @@ public interface GlobalURLDao {
 	public GlobalURLBean getVisitCountList(String shortUrl);
 	public void addURLVisitCount();
 	public String shortenUrl(String longUrl);
+	
 }

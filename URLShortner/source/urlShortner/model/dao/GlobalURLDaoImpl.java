@@ -71,6 +71,7 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 	}
 	public GlobalURLBean getVisitCountList(String shortUrl){
 		
+		
 		//in progress - some code still needs to be added
 		
 		String SQL = "select visitCount from GlobalUrlDB where shortUrl =  (?)";

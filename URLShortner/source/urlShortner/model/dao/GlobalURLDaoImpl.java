@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import model.dto.User;
 import model.mapper.UserMapper;
 import model.dto.UrlMappingList;
+import model.mapper.GlobalURLMapper;
 import model.mapper.ShortUrlMapper;
 import model.dto.*;
 
@@ -68,8 +69,26 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 	
 		
 	}
-	public void getVisitCountList(){
+	public GlobalURLBean getVisitCountList(String shortUrl){
 		
+		//in progress - some code still needs to be added
+		
+		String SQL = "select visitCount from GlobalUrlDB where shortUrl =  (?)";
+		Object[] params = new Object[] { shortUrl };
+		GlobalURLMapper mapper = new GlobalURLMapper();
+		
+		try{
+			GlobalURLBean globalCountList = this.jdbcTemplateObject.queryForObject( SQL, params, mapper);
+			return globalCountList;
+		}
+		catch(EmptyResultDataAccessException e){
+			e.printStackTrace();
+			return null;
+		}
+		catch(Exception e){
+			System.out.println("Some other Exception");
+			return null;
+		}
 	}
 	public void addURLVisitCount(){
 		

@@ -88,26 +88,16 @@ public class UserURLDaoImpl implements UserURLDao{
 		///////if-else for userid = 0
 		String SQL = "select shortUrl, longUrl from UserUrlList where userid = (?)";
 		Object[] params = new Object[] { userid };
+		UserUrlMapper userUrlMapper = new UserUrlMapper();
 		try{
-
-			List<UserUrl> userurls = new ArrayList<UserUrl>();
-			List<Map<String, Object>> rows = jdbcTemplateObject.queryForList(SQL, params);
-
-			for (Map row : rows) {
-				UserUrl userUrl = new UserUrl();
-				userUrl.setShortUrl(String.valueOf(row.get("shortUrl")));
-				userUrl.setLongUrl(String.valueOf(row.get("longUrl")));
-				userurls.add(userUrl);
-			}
-			return userurls;
+			List<UserUrl> userUrls = this.jdbcTemplateObject.query(SQL, params, userUrlMapper);
+			return userUrls;
 		}
 		catch(Exception e){
 			System.out.println("Error in retrieving user Url list");
 			return null;
 		}
 	}
-
-
 
 	public boolean checkIfUrlExistsForUser(int userid, String shortUrl){
 

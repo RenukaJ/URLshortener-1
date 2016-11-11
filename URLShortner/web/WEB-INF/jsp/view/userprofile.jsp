@@ -7,7 +7,6 @@
 	@SuppressWarnings("unchecked")
 	List<UserUrl> urlMapping = (List<UserUrl>) request.getAttribute("links");
 %>
-
 <%
 	@SuppressWarnings("unchecked")
 	Map<String, Integer> urlCount = (Map<String, Integer>) request.getAttribute("linksCount");
@@ -31,8 +30,6 @@
 </head>
 <body>
 	<!--  Navbar -->
-
-
 	<nav class="navbar navbar-inverse navbar-fixed-top" id="uSh_navbar">
 		<div class="container-fluid">
 			<!-- Brand and toggle get grouped for better mobile display -->
@@ -109,6 +106,7 @@
 				<div class="col-xs-3"></div>
 			</div>
 		</div>
+		
 		<div class="row">
 			<ul class="list-group">
 				<%
@@ -150,7 +148,7 @@
         <c:param name="url" value="<%=shortUrl%>"/>
         </c:url>"><%=shortUrl%></a>
 
-					<span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
+					<%-- <span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span> --%>
 					<div class="btn-toolbar" role="toolbar">
 						<button role="group" type="button"
 							class="btn btn-sm btn-success uSh_copyUrl"

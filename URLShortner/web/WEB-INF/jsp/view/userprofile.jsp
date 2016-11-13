@@ -9,6 +9,7 @@
 %>
 <%
 	@SuppressWarnings("unchecked")
+	// map contains shorturl, visitcount
 	Map<String, Integer> urlCount = (Map<String, Integer>) request.getAttribute("linksCount");
 %>
 
@@ -148,7 +149,7 @@
         <c:param name="url" value="<%=shortUrl%>"/>
         </c:url>"><%=shortUrl%></a>
 
-					<%-- <span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span> --%>
+					 <span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
 					<div class="btn-toolbar" role="toolbar">
 						<button role="group" type="button"
 							class="btn btn-sm btn-success uSh_copyUrl"

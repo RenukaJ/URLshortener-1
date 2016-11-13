@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -224,16 +225,25 @@ public class UserProfilePage extends HttpServlet{
 		request.setAttribute("username", username);
 		List<UserUrl> userurl = userurlDao.getUserUrlList(username);
 		if(userurl != null){
-			System.out.println("Pasing values");
+//			System.out.println("Pasing values");
 			request.setAttribute("links", userurl);
 		}
 		else{
 			request.setAttribute("links", null);
 		}
+		
+		//return hashmap having shorturl,visitcount. and set to linksCount.
+		 HashMap<String,Integer> globalUrlCount = globalurlDao.getAllVisitCountMap(userurl);		 
+		 request.setAttribute("linksCount", globalUrlCount);
+		 
 		request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
 /*
 		if(reqHandler.userUrlListExists(username)){
 			request.setAttribute("links", reqHandler.getUserUrlList(username));
+			
+			//return hashmap having shorturl,visitcount. and set to linksCount.
+			 // globalurldao.getGlobalUrlCount()
+			 
 			request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
 		}
 		else{

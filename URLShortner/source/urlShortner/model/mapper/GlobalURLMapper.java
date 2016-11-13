@@ -4,11 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
-public class GlobalURLMapper implements RowMapper<GlobalURLBean>{
+public class GlobalURLMapper implements RowMapper<UrlMappingList>{
 
-	public GlobalURLBean mapRow(ResultSet rs, int rowNum) throws SQLException {
-		GlobalURLBean globalUrlDb = new GlobalURLBean();
+	public UrlMappingList mapRow(ResultSet rs, int rowNum) throws SQLException {
+		UrlMappingList globalUrlDb = new UrlMappingList();
 		globalUrlDb.setVisitCount(rs.getInt("visitCount"));
+		//globalUrlDb.setlongUrl(rs.getString("longUrl"));
+	      
 	    return globalUrlDb;
 	}
 }

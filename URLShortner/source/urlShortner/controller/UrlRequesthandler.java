@@ -4,15 +4,22 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import model.DBRequesthandler;
+import model.dao.GlobalURLDao;
+import model.dao.UserURLDao;
+import model.dto.UrlMappingList;
 
 /*
  * This servlet handles requests and responses for all responses for the domainname/short/* URL
@@ -26,6 +33,21 @@ public class UrlRequesthandler extends HttpServlet{
 
 	DBRequesthandler reqHandler = new DBRequesthandler();
 
+	@Autowired
+	private GlobalURLDao globalurlDao;
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException{
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+
+	}
+	
+	public void setGlobalurlDao(GlobalURLDao globalurlDao){
+		this.globalurlDao = globalurlDao;
+	}
+	
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException , IOException
 	{
@@ -68,7 +90,37 @@ public class UrlRequesthandler extends HttpServlet{
 		 * 			Redirect to Error Page
 		 */
 
-		String orgUrl = "";
+		HttpSession session = request.getSession();
+		String shortUrl = request.getParameter("url");
+		
+		if(shortUrl != null){
+		UrlMappingList urlList = globalurlDao.getLongURL(shortUrl);
+		
+		globalurlDao.addURLVisitCount(shortUrl);
+		
+		int responseCode = 404;
+		
+		try{
+			HttpURLConnection huc = (HttpURLConnection) new URL(urlList.getLongUrl()).openConnection();
+			responseCode = huc.getResponseCode();
+		}
+		catch(Exception e){
+			responseCode = 404;
+		}
+
+		if (responseCode == 200) {
+			response.sendRedirect(urlList.getLongUrl());
+		}
+		else{
+			response.sendRedirect("/URLShortner/errorPage");
+		}
+		}
+		else{
+			response.sendRedirect("/URLShortner/errorPage");
+			return;
+		}
+
+		/*String orgUrl = "";
 		String shUrl = request.getParameter("url");
 
 		if(reqHandler.shortUrlexists(shUrl)){
@@ -95,7 +147,7 @@ public class UrlRequesthandler extends HttpServlet{
 		else{
 			response.sendRedirect("/URLShortner/errorPage");
 			return;
-		}
+		}*/
 
 	}
 

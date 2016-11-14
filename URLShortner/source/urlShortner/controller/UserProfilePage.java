@@ -263,9 +263,11 @@ public class UserProfilePage extends HttpServlet{
 		 * b. Delete entry from url list object
 		 * c.Send the control over to the userprofileJsp
 		 */
+		System.out.println("In delete");
 		HttpSession session = request.getSession();
 		String username = (String) session.getAttribute("username");
 		String urlToRemove = request.getParameter("urlToRemove");
+		userurlDao.deleteUserListValue(username, urlToRemove);
 /*
 		if(reqHandler.userUrlListExists(username)){
 			reqHandler.deleteUrlFromUserList(username, urlToRemove);

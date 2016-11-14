@@ -58,8 +58,34 @@ public class UserURLDaoImpl implements UserURLDao{
 
 
 	}
-	public void deleteUserListValue(String urlToRemove){
-
+	public void deleteUserListValue(String username, String urlToRemove){
+		/*
+		 * 1. Get user ID
+		 * 2. Check if url already exists 
+		 * 		YES:
+		 * 			Delete value from URL
+		 * 		NO:
+		 * 			return
+		 */
+		System.out.println(" In delete -> db");
+		int userid = getUserId(username);
+		/////////if-else for userid == 0
+		if(checkIfUrlExistsForUser(userid, urlToRemove)){
+			String SQL = "delete from userUrlList where userid = ? and shortUrl = ?";
+			System.out.println("Executing deletie");
+			Object[] params = new Object[] { userid, urlToRemove };
+			try{
+				jdbcTemplateObject.update( SQL, params);
+				System.out.println("Removed from User Url List");
+			}
+			catch(Exception e){
+				System.out.println("Exception occured when deleting from user list"+e);
+				/*Put Stack trace into logger file*/
+			}
+		}
+		else{
+			return;
+		}
 	}
 
 	public int getUserId(String username){

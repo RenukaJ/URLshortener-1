@@ -144,13 +144,12 @@
 						</h5>
 					</h4>
 					<h4>Shortened Url:</h4> 
-					<!--  		<a href="<%=shortUrl%>"><%=shortUrl%></a>		 -->
-					<a
+					<a href="<%=shortUrl%>"><%=shortUrl%></a>
+					<!--  		<a
  					href="<c:url value="/short/*">
         <c:param name="action" value="gotoUrl"/>
         <c:param name="url" value="<%=shortUrl%>"/>
-         </c:url>" title="<%=shortUrl%>"><%=shortUrl%></a>
-					
+         </c:url>" title="<%=shortUrl%>"><%=shortUrl%></a>		 -->
 					
 					 <span class="badge glyphicon glyphicon-stats">&nbsp;<%=urlCount.get(shortUrl)%></span>
 					<div class="btn-toolbar" role="toolbar">

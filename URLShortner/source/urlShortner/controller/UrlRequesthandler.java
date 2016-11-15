@@ -51,112 +51,6 @@ public class UrlRequesthandler extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException , IOException
 	{
-		/*This part handles the actions which can happen on the home page*/
-		String action = request.getParameter("action");
-
-		if(action == null)
-			action = "page";
-
-		switch(action)
-		{
-		case "gotoUrl":
-			this.gotoUrl(request, response);
-			break;
-		case "page":
-		default:
-			browserUrlRequstAction(request, response);
-			break;
-		}
-	}
-
-	/*Handle requests from User Click from User profile page*/
-	public void gotoUrl(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException
-	{
-		/*
-		 * 1. Get URL from request parameters
-		 * 2. Check if the short URL exists in DB
-		 * 		2.a YES
-		 * 			1. Get the corresponding long URL
-		 * 			2. Add the count for URL visits
-		 * 			3. Try to make a connection the the Long/original URL
-		 * 			4. Get response code
-		 * 			5. Check if Response Code is 22
-		 * 				YES:
-		 * 				a. Redirect to the Original URL
-		 * 				No:
-		 * 				a. Redirect to Error Page
-		 * 		2.b No
-		 * 			Redirect to Error Page
-		 */
-
-		HttpSession session = request.getSession();
-		String shortUrl = request.getParameter("url");
-		
-		if(shortUrl != null){
-		UrlMappingList urlList = globalurlDao.getLongURL(shortUrl);
-		
-		globalurlDao.addURLVisitCount(shortUrl);
-		
-		int responseCode = 404;
-		
-		try{
-			HttpURLConnection huc = (HttpURLConnection) new URL(urlList.getLongUrl()).openConnection();
-			responseCode = huc.getResponseCode();
-		}
-		catch(Exception e){
-			responseCode = 404;
-		}
-
-		if (responseCode == 200) {
-			response.sendRedirect(urlList.getLongUrl());
-		}
-		else{
-			response.sendRedirect("/URLShortner/errorPage");
-		}
-		}
-		else{
-			response.sendRedirect("/URLShortner/errorPage");
-			return;
-		}
-
-		/*String orgUrl = "";
-		String shUrl = request.getParameter("url");
-
-		if(reqHandler.shortUrlexists(shUrl)){
-			orgUrl = reqHandler.getLongUrl(shUrl);
-			reqHandler.addUrlVisitCount(shUrl);
-
-			int responseCode = 404;
-
-			try{
-				HttpURLConnection huc = (HttpURLConnection) new URL(orgUrl).openConnection();
-				responseCode = huc.getResponseCode();
-			}
-			catch(Exception e){
-				responseCode = 404;
-			}
-			if (responseCode == 200) {
-
-				response.sendRedirect(orgUrl);
-			}
-			else{
-				response.sendRedirect("/URLShortner/errorPage");
-			}
-		}
-		else{
-			response.sendRedirect("/URLShortner/errorPage");
-			return;
-		}*/
-
-	}
-
-
-	/*Handle requests from User query from browser*/
-	public void browserUrlRequstAction(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException
-	{
-
 		/*
 		 * 1. Get URL from request parameters
 		 * 2. Append http://localhost:8080 to the URL
@@ -175,24 +69,16 @@ public class UrlRequesthandler extends HttpServlet{
 		 * 			Redirect to Error Page
 		 */
 		
-//		String shortUrl = request.getParameter("url");
 		String shortUrl = request.getRequestURI();
 		shortUrl = "http://localhost:8080" + shortUrl;
-
-		if(shortUrl != null){
-			UrlMappingList urlList = globalurlDao.getLongURL(shortUrl);
-			
+		
+		UrlMappingList urlList = globalurlDao.getLongURL(shortUrl);
+		if(urlList != null){
 			globalurlDao.addURLVisitCount(shortUrl);
-	
-//		String orgUrl = "";
-//
-//		if(reqHandler.shortUrlexists(shUrl)){
-//			orgUrl = reqHandler.getLongUrl(shUrl);
-//			reqHandler.addUrlVisitCount(shUrl);
-
+			String longURL = urlList.getLongUrl();
 			int responseCode = 404;
 			try{
-				HttpURLConnection huc = (HttpURLConnection) new URL(urlList.getLongUrl()).openConnection();
+				HttpURLConnection huc = (HttpURLConnection) new URL(longURL).openConnection();
 				responseCode = huc.getResponseCode();
 			}
 			catch(Exception e){
@@ -200,7 +86,7 @@ public class UrlRequesthandler extends HttpServlet{
 			}
 
 			if (responseCode == 200) {
-				response.sendRedirect(urlList.getLongUrl());
+				response.sendRedirect(longURL);
 			}
 			else{
 				response.sendRedirect("/URLShortner/errorPage");
@@ -209,9 +95,6 @@ public class UrlRequesthandler extends HttpServlet{
 		}else{
 			response.sendRedirect("/URLShortner/errorPage");
 		}
-			
-			//return;
-		
 	}
 }
 

@@ -174,18 +174,25 @@ public class UrlRequesthandler extends HttpServlet{
 		 * 		3.b No
 		 * 			Redirect to Error Page
 		 */
-		String shUrl = request.getRequestURI();
-		shUrl = "http://localhost:8080" + shUrl;
+		
+//		String shortUrl = request.getParameter("url");
+		String shortUrl = request.getRequestURI();
+		shortUrl = "http://localhost:8080" + shortUrl;
 
-		String orgUrl = "";
-
-		if(reqHandler.shortUrlexists(shUrl)){
-			orgUrl = reqHandler.getLongUrl(shUrl);
-			reqHandler.addUrlVisitCount(shUrl);
+		if(shortUrl != null){
+			UrlMappingList urlList = globalurlDao.getLongURL(shortUrl);
+			
+			globalurlDao.addURLVisitCount(shortUrl);
+	
+//		String orgUrl = "";
+//
+//		if(reqHandler.shortUrlexists(shUrl)){
+//			orgUrl = reqHandler.getLongUrl(shUrl);
+//			reqHandler.addUrlVisitCount(shUrl);
 
 			int responseCode = 404;
 			try{
-				HttpURLConnection huc = (HttpURLConnection) new URL(orgUrl).openConnection();
+				HttpURLConnection huc = (HttpURLConnection) new URL(urlList.getLongUrl()).openConnection();
 				responseCode = huc.getResponseCode();
 			}
 			catch(Exception e){
@@ -193,17 +200,18 @@ public class UrlRequesthandler extends HttpServlet{
 			}
 
 			if (responseCode == 200) {
-				response.sendRedirect(orgUrl);
+				response.sendRedirect(urlList.getLongUrl());
 			}
 			else{
 				response.sendRedirect("/URLShortner/errorPage");
 			}
-
-		}
-		else{
+		
+		}else{
 			response.sendRedirect("/URLShortner/errorPage");
-			return;
 		}
+			
+			//return;
+		
 	}
 }
 

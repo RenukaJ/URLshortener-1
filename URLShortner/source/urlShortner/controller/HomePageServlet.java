@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,9 +10,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import model.DBRequesthandler;
+import model.dao.GlobalURLDao;
+import model.dao.GlobalURLDaoImpl;
+import model.dao.UserURLDao;
+import model.dto.UrlMappingList;
+
 
 
 /*
@@ -27,12 +35,26 @@ import model.DBRequesthandler;
 
 @Controller
 public class HomePageServlet extends HttpServlet{
+	
 	DBRequesthandler reqHandler = new DBRequesthandler();
+	
+	@Autowired
+	private GlobalURLDao globalurlDao;
+	@Override
+	public void init(ServletConfig config) throws ServletException{
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+
+	}
+	
+	public void setGlobalurlDao(GlobalURLDao globalurlDao){
+		this.globalurlDao = globalurlDao;
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
-	{
+	{   
 		HttpSession session = request.getSession();
 
 		//ToDo: If user clicks on back button and is currently logged in, then Home page should not be shown
@@ -86,6 +108,7 @@ public class HomePageServlet extends HttpServlet{
 		switch(action)
 		{
 		case "getLongUrl":
+			System.out.println("get Long Url");
 			this.getLongURL(request, response);
 			break;
 		case "page":
@@ -116,15 +139,19 @@ public class HomePageServlet extends HttpServlet{
 		 *		b. Forward the request to home.jsp 
 		 */
 		String shUrl = request.getParameter("shortUrl");
+		System.out.println("shorturl "+shUrl);
 		HttpSession session = request.getSession();
+		System.out.println("shorturl+domain "+shUrl);
 
 		if(shUrl.startsWith("http://localhost:8080/URLShortner/")){
-			if(reqHandler.shortUrlexists(shUrl)){
-				String longUrl = reqHandler.getLongUrl(shUrl);
+			if(globalurlDao.shortUrlexists(shUrl)){
+				String longUrl = globalurlDao.getLongURL(shUrl);
 				session.setAttribute("longUrl", longUrl);
+				System.out.println("longurl:"+longUrl);
 			}
 			else{
-				session.setAttribute("longUrl", "undefined");	
+				session.setAttribute("longUrl", "undefined");
+				System.out.println("longurl: undefined");
 			}		
 		}
 		else{

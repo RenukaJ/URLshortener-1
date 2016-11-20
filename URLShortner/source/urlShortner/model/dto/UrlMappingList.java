@@ -4,7 +4,6 @@ public class UrlMappingList {
 	private Integer urlID;
 	private String shortUrl;
 	private String longUrl;
-	private int visitCount;
 	
 	/*
 	 * Setter Methods
@@ -17,12 +16,8 @@ public class UrlMappingList {
 		this.shortUrl = shortUrl;
 	}
 	
-	public void setlongUrl(String longUrl){
+	public void setLongUrl(String longUrl){
 		this.longUrl = longUrl;
-	}
-	
-	public void setVisitCount(int count){
-		this.visitCount = count;
 	}
 	
 	
@@ -40,10 +35,6 @@ public class UrlMappingList {
 	
 	public String getLongUrl(){
 		return this.longUrl;
-	}
-	
-	public int getVisitCount(){
-		return this.visitCount;
 	}
 	
 	

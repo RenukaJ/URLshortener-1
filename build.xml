@@ -141,8 +141,15 @@ password Passw0rd
     </target>
     
     
-    <target name="createTable">
-    	
+    <target name="createTables" depends="init, bootstrap-server-properties"
+            description="Start HSQLDB server">
+    	<echo message="Initializing the Database.." />
+        <echo message="Following tables will be created:" />
+        <echo message="1. Users: Maintains List of Users and passwords" />
+        <echo message="2. GlobalUrlDB: Maintains List of all Short URLs, LongURLs and the Visit Status to the Short URL" />
+        <echo message="3. UserUrlList: Tracks the list of URLs shortened by Users" />
+        <echo message="Initialized Users table with a test user" />
+        <echo message="Username: testUser, Password: testPassword" />
     	<sql 
     	    classpath="lib/hsqldb-2.3.4.jar"
     		driver="org.hsqldb.jdbcDriver"
@@ -161,7 +168,7 @@ password Passw0rd
       		    CREATE TABLE UserUrlList(userid INTEGER, shortUrl VARCHAR(100), longUrl VARCHAR(500));
       		</transaction>
             <transaction>
-                INSERT INTO Users (userid, userName,password )values('1', 'test','123');
+                INSERT INTO Users (userid, userName,password )values('1', 'testUser', 'testPassword');
             </transaction>
     	</sql> 
     	

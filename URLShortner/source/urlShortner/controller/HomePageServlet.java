@@ -16,9 +16,6 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import model.DBRequesthandler;
 import model.dao.GlobalURLDao;
-import model.dao.GlobalURLDaoImpl;
-import model.dao.UserURLDao;
-import model.dto.UrlMappingList;
 
 
 
@@ -145,7 +142,7 @@ public class HomePageServlet extends HttpServlet{
 
 		if(shUrl.startsWith("http://localhost:8080/URLShortner/")){
 			if(globalurlDao.shortUrlexists(shUrl)){
-				String longUrl = globalurlDao.getLongURL(shUrl);
+				String longUrl = globalurlDao.getoriLongURL(shUrl);
 				session.setAttribute("longUrl", longUrl);
 				System.out.println("longurl:"+longUrl);
 			}

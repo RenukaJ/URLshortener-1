@@ -14,6 +14,9 @@ import model.mapper.UserMapper;
 import model.mapper.ShortUrlMapper;
 import model.mapper.LongUrlMapper;
 import model.dto.*;
+import java.util.HashMap;
+import model.mapper.GlobalURLMapper;
+import model.mapper.LongUrlMapper;
 
 
 public class GlobalURLDaoImpl implements GlobalURLDao{
@@ -70,8 +73,72 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 	
 		
 	}
+	public UrlMappingList getLongURL(String shortUrl){
+		
+		String SQL = "select longUrl from GlobalUrlDB where shortUrl =  (?)";
+		Object[] params = new Object[] { shortUrl };
+		GlobalURLMapper mapper = new GlobalURLMapper();
+		try{
+			UrlMappingList urlList = this.jdbcTemplateObject.queryForObject( SQL, params, mapper);
+			return urlList;
+		}catch(EmptyResultDataAccessException e){
+			e.printStackTrace();
+			return null;
+		}catch(Exception e){
+			System.out.println("Some other Exception");
+			return null;
+		}
+		
+	}
+	//returns visitCount
+	public UrlMappingList getVisitCountList(String shortUrl){
+		//in progress - some code still needs to be added
+		String SQL = "select visitCount from GlobalUrlDB where shortUrl =  (?)";
+		Object[] params = new Object[] { shortUrl };
+		GlobalURLMapper mapper = new GlobalURLMapper();
+		try{
+			UrlMappingList globalCountList = this.jdbcTemplateObject.queryForObject( SQL, params, mapper);
+			return globalCountList;
+		}catch(EmptyResultDataAccessException e){		
+				 			e.printStackTrace();
+				 			return null;
+		}catch(Exception e){
+			System.out.println("Some other Exception");
+			return null;
+		}
+		
+	}
+	public HashMap<String,Integer> getAllVisitCountMap(List<UserUrl> userurl){		
+		 		HashMap<String,Integer> globalUrlCount = new HashMap<>();		
+		 				
+		 		for(UserUrl userUrlElement: userurl){		
+		 			String shorturlTemp = userUrlElement.getShortUrl();		
+		 			Integer visitCountTemp = getVisitCountList(shorturlTemp).getVisitCount();		
+		 			globalUrlCount.put(shorturlTemp, visitCountTemp);		
+		 		}		
+		 				
+		 		return globalUrlCount;
+	}
+	public void addURLVisitCount(String shortUrl){		
+		 		/*		
+		 		 * get visit count from getVisitCountList in count variable		
+		 		 * increment count variable		
+		 		 * update visit count in GlobalUrlDB table*/		
+		  				  		
+		 		int visitCount = getVisitCountList(shortUrl).getVisitCount();		
+		 		visitCount++;		
+		 		String SQL = "UPDATE GlobalUrlDB SET visitCount = (?) WHERE shortUrl = (?)";		
+		 		Object[] params = new Object[] { visitCount, shortUrl };		
+		 		try{		
+		 			jdbcTemplateObject.update( SQL, params);		
+		 		}		
+		 		catch(Exception e){		
+		 			e.printStackTrace();		
+		 		}		
+		 		
+		  	}
 	
-	public String getLongURL(String shortUrl){
+	public String getoriLongURL(String shortUrl){
 		String SQL = "select longUrl from GlobalUrlDB where shortUrl =  (?)";
 		System.out.println("sql:"+SQL);
 		Object[] params = new Object[] { shortUrl };

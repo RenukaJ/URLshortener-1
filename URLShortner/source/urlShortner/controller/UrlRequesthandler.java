@@ -15,8 +15,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-
-//import model.DBRequesthandler;
 import model.dao.GlobalURLDao;
 import model.dao.UserURLDao;
 import model.dto.UrlMappingList;
@@ -31,7 +29,6 @@ import model.dto.UrlMappingList;
 @Controller
 public class UrlRequesthandler extends HttpServlet{
 
-	//DBRequesthandler reqHandler = new DBRequesthandler();
 
 	@Autowired
 	private GlobalURLDao globalurlDao;
@@ -97,4 +94,3 @@ public class UrlRequesthandler extends HttpServlet{
 		}
 	}
 }
-

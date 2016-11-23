@@ -1,7 +1,6 @@
 package model.dao;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -11,13 +10,13 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import model.dto.User;
 import model.mapper.UserMapper;
-import model.dto.UrlMappingList;
+import model.mapper.ShortUrlMapper;
+import model.mapper.LongUrlMapper;
+import model.dto.*;
+import java.util.HashMap;
 import model.mapper.GlobalURLMapper;
 import model.mapper.LongUrlMapper;
-import model.mapper.ShortUrlMapper;
-import model.dto.*;
 
 
 public class GlobalURLDaoImpl implements GlobalURLDao{
@@ -74,99 +73,70 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 	
 		
 	}
-	//get long url for short url
 	public UrlMappingList getLongURL(String shortUrl){
 		
 		String SQL = "select longUrl from GlobalUrlDB where shortUrl =  (?)";
 		Object[] params = new Object[] { shortUrl };
-		LongUrlMapper mapper = new LongUrlMapper();
-//		GlobalURLMapper mapper = new GlobalURLMapper();
-		
+		GlobalURLMapper mapper = new GlobalURLMapper();
 		try{
 			UrlMappingList urlList = this.jdbcTemplateObject.queryForObject( SQL, params, mapper);
 			return urlList;
-			
-		}
-		catch(EmptyResultDataAccessException e){
+		}catch(EmptyResultDataAccessException e){
 			e.printStackTrace();
 			return null;
-		}
-		catch(Exception e){
-			e.printStackTrace();
+		}catch(Exception e){
+			System.out.println("Some other Exception"+e);
 			return null;
 		}
 		
 	}
-	
 	//returns visitCount
 	public UrlMappingList getVisitCountList(String shortUrl){
-		
-		
 		//in progress - some code still needs to be added
-		
-		
 		String SQL = "select visitCount from GlobalUrlDB where shortUrl =  (?)";
 		Object[] params = new Object[] { shortUrl };
 		GlobalURLMapper mapper = new GlobalURLMapper();
-		
 		try{
 			UrlMappingList globalCountList = this.jdbcTemplateObject.queryForObject( SQL, params, mapper);
 			return globalCountList;
-		}
-		catch(EmptyResultDataAccessException e){
-			e.printStackTrace();
-			return null;
-		}
-		catch(Exception e){
+		}catch(EmptyResultDataAccessException e){		
+				 			e.printStackTrace();
+				 			return null;
+		}catch(Exception e){
 			System.out.println("Some other Exception");
 			return null;
 		}
-	}
-	
-	
-	public HashMap<String,Integer> getAllVisitCountMap(List<UserUrl> userurl){
-		HashMap<String,Integer> globalUrlCount = new HashMap<>();
-		
-		for(UserUrl userUrlElement: userurl){
-			String shorturlTemp = userUrlElement.getShortUrl();
-			Integer visitCountTemp = getVisitCountList(shorturlTemp).getVisitCount();
-			globalUrlCount.put(shorturlTemp, visitCountTemp);
-		}
-		
-		return globalUrlCount;
 		
 	}
-	
-	public void addURLVisitCount(String shortUrl){
-		/*
-		 * get visit count from getVisitCountList in count variable
-		 * increment count variable
-		 * update visit count in GlobalUrlDB table*/
-		
-		int visitCount = getVisitCountList(shortUrl).getVisitCount();
-		visitCount++;
-		String SQL = "UPDATE GlobalUrlDB SET visitCount = (?) WHERE shortUrl = (?)";
-		Object[] params = new Object[] { visitCount, shortUrl };
-		try{
-			jdbcTemplateObject.update( SQL, params);
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-
+	public HashMap<String,Integer> getAllVisitCountMap(List<UserUrl> userurl){		
+		 		HashMap<String,Integer> globalUrlCount = new HashMap<>();		
+		 				
+		 		for(UserUrl userUrlElement: userurl){		
+		 			String shorturlTemp = userUrlElement.getShortUrl();		
+		 			Integer visitCountTemp = getVisitCountList(shorturlTemp).getVisitCount();		
+		 			globalUrlCount.put(shorturlTemp, visitCountTemp);		
+		 		}		
+		 				
+		 		return globalUrlCount;
 	}
-	public String shortenUrl(String longUrl){
-		/*
-		 * 1. convert longUrl into 36 bit hash value
-		 * 2. Take Max bits
-		 * 3. Convert to String with base 36 encoding
-		 * 4. Return value
-		 */
-		String encodedUrl = "";
-		Integer hashKey = (int) UUID.nameUUIDFromBytes(longUrl.getBytes()).getMostSignificantBits();
-		encodedUrl = Integer.toString(hashKey, 36);
-		return "http://localhost:8080/URLShortner/short/" +encodedUrl;
-	}
+	public void addURLVisitCount(String shortUrl){		
+		 		/*		
+		 		 * get visit count from getVisitCountList in count variable		
+		 		 * increment count variable		
+		 		 * update visit count in GlobalUrlDB table*/		
+		  				  		
+		 		int visitCount = getVisitCountList(shortUrl).getVisitCount();		
+		 		visitCount++;		
+		 		String SQL = "UPDATE GlobalUrlDB SET visitCount = (?) WHERE shortUrl = (?)";		
+		 		Object[] params = new Object[] { visitCount, shortUrl };		
+		 		try{		
+		 			jdbcTemplateObject.update( SQL, params);		
+		 		}		
+		 		catch(Exception e){		
+		 			e.printStackTrace();		
+		 		}		
+		 		
+		  	}
 	
 	public String getoriLongURL(String shortUrl){
 		String SQL = "select longUrl from GlobalUrlDB where shortUrl =  (?)";
@@ -203,13 +173,24 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 
 
 	
-//	public void getVisitCountList(){
-//		
-//	}
-//	public void addURLVisitCount(){
-//		
-//	}
-
+	public void getVisitCountList(){
+		
+	}
+	public void addURLVisitCount(){
+		
+	}
+	public String shortenUrl(String longUrl){
+		/*
+		 * 1. convert longUrl into 36 bit hash value
+		 * 2. Take Max bits
+		 * 3. Convert to String with base 36 encoding
+		 * 4. Return value
+		 */
+		String encodedUrl = "";
+		Integer hashKey = (int) UUID.nameUUIDFromBytes(longUrl.getBytes()).getMostSignificantBits();
+		encodedUrl = Integer.toString(hashKey, 36);
+		return "http://localhost:8080/URLShortner/short/" +encodedUrl;
+	}
 
 
 	@Override

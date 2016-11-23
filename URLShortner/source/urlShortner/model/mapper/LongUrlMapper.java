@@ -7,7 +7,13 @@ import org.springframework.jdbc.core.RowMapper;
 public class LongUrlMapper implements RowMapper<UrlMappingList>{
 	public UrlMappingList mapRow(ResultSet rs, int rowNum) throws SQLException {
 		  UrlMappingList urlList = new UrlMappingList();
-		  urlList.setLongUrl(rs.getString("longUrl"));
+		  try{
+			  urlList.setLongUrl(rs.getString("longUrl"));
+		  }
+		  catch(Exception e){
+			  
+		  }
+		  
 	      return urlList;
 	   }
 

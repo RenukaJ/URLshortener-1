@@ -8,9 +8,18 @@ public class GlobalURLMapper implements RowMapper<UrlMappingList>{
 
 	public UrlMappingList mapRow(ResultSet rs, int rowNum) throws SQLException {
 		UrlMappingList globalUrlDb = new UrlMappingList();
-		globalUrlDb.setVisitCount(rs.getInt("visitCount"));
-		//globalUrlDb.setlongUrl(rs.getString("longUrl"));
-	      
+		try{
+			globalUrlDb.setVisitCount(rs.getInt("visitCount"));
+		}
+		catch(Exception e){
+			
+		}
+		try{
+			globalUrlDb.setLongUrl(rs.getString("longUrl"));
+		}
+		catch(Exception e){
+			
+		} 
 	    return globalUrlDb;
 	}
 }

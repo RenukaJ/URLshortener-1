@@ -13,8 +13,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-
-//import model.DBRequesthandler;
 import model.dao.AuthDao;
 
 import java.io.IOException;
@@ -90,7 +88,6 @@ public class LoginServlet extends HttpServlet
 		switch(action)
 		{
 		case "login":
-			System.out.println(authentication);
 			this.login(request, response, authentication);
 			break;
 		case "signup":

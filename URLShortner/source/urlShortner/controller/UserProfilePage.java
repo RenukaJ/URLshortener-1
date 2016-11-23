@@ -188,21 +188,7 @@ public class UserProfilePage extends HttpServlet{
 		else{
 			userurlDao.addUrlToUserList(username, urlList.getShortUrl(), longUrl);
 		}
-		
-		/*
-		if(reqHandler.globalurlMappingExists(longUrl)){
-			encoded  = reqHandler.getShortURl(longUrl);
-			reqHandler.addUrlMappingToUser(username, longUrl, encoded);
-
-		}
-		else{
-			encoded = reqHandler.generateShortURL(longUrl);
-			reqHandler.addUrlMappingToUser(username, longUrl, encoded);
-			reqHandler.addUrlToCountsList(encoded);
-			reqHandler.addUrltoMappingList(encoded, longUrl);
-		} 
 		response.sendRedirect("userprofile");
-		*/
 	}
 
 
@@ -237,20 +223,6 @@ public class UserProfilePage extends HttpServlet{
 		 request.setAttribute("linksCount", globalUrlCount);
 		 
 		request.getRequestDispatcher("/WEB-INF/jsp/view/userprofile.jsp").forward(request, response);
-/*
-		if(reqHandler.userUrlListExists(username)){
-			request.setAttribute("links", reqHandler.getUserUrlList(username));
-			
-			//return hashmap having shorturl,visitcount. and set to linksCount.
-			 // globalurldao.getGlobalUrlCount()
-			 
-			request.setAttribute("linksCount", reqHandler.getGlobalUrlCount());
-		}
-		else{
-			request.setAttribute("links", null);
-		}
-*/
-		
 
 	}
 
@@ -268,11 +240,6 @@ public class UserProfilePage extends HttpServlet{
 		String username = (String) session.getAttribute("username");
 		String urlToRemove = request.getParameter("urlToRemove");
 		userurlDao.deleteUserListValue(username, urlToRemove);
-/*
-		if(reqHandler.userUrlListExists(username)){
-			reqHandler.deleteUrlFromUserList(username, urlToRemove);
-		}
-		*/
 		response.sendRedirect("userprofile");
 	}
 

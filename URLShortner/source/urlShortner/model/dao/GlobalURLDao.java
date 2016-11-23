@@ -12,9 +12,10 @@ public interface GlobalURLDao {
 	// passing all user shorturls to get only the needed visit count and returning to Ui as Map
 	public HashMap<String,Integer> getAllVisitCountMap(List<UserUrl> userurl);
 	public void addURLVisitCount(String shortUrl);
+	public String shortenUrl(String longUrl);
 	public Boolean shortUrlexists(String shortUrl);
     public String getoriLongURL(String shortUrl);
-	public void getVisitCountList();
-	public void addURLVisitCount();
-	public String shortenUrl(String longUrl);
+//	public void getVisitCountList();
+//	public void addURLVisitCount();
+	
 }

@@ -14,7 +14,5 @@ public interface GlobalURLDao {
 	public void addURLVisitCount(String shortUrl);
 	public Boolean shortUrlexists(String shortUrl);
     public String getoriLongURL(String shortUrl);
-	public void getVisitCountList();
-	public void addURLVisitCount();
 	public String shortenUrl(String longUrl);
 }

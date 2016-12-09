@@ -9,6 +9,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
 import model.mapper.UserMapper;
 import model.mapper.ShortUrlMapper;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import model.mapper.GlobalURLMapper;
 import model.mapper.LongUrlMapper;
 
-
+@Service
 public class GlobalURLDaoImpl implements GlobalURLDao{
 	private BasicDataSource dataSource;
 	private JdbcTemplate jdbcTemplateObject;
@@ -29,7 +30,7 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
 
-	
+	@Override
 	public String addNewValueToGlobalURLList(String longUrl){
 		/*
 		 * 1. Process Method for getting new shortURL
@@ -52,6 +53,8 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 			return null;
 		}
 	}
+	
+	@Override
 	public UrlMappingList getshortURL(String longUrl){
 		String SQL = "select shortUrl from GlobalUrlDB where longUrl =  (?)";
 		Object[] params = new Object[] { longUrl };
@@ -73,6 +76,8 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 	
 		
 	}
+	
+	@Override
 	public UrlMappingList getLongURL(String shortUrl){
 		
 		String SQL = "select longUrl from GlobalUrlDB where shortUrl =  (?)";
@@ -90,7 +95,9 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		}
 		
 	}
+	
 	//returns visitCount
+	@Override
 	public UrlMappingList getVisitCountList(String shortUrl){
 		//in progress - some code still needs to be added
 		String SQL = "select visitCount from GlobalUrlDB where shortUrl =  (?)";
@@ -108,6 +115,8 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		}
 		
 	}
+	
+	@Override
 	public HashMap<String,Integer> getAllVisitCountMap(List<UserUrl> userurl){		
 		 		HashMap<String,Integer> globalUrlCount = new HashMap<>();		
 		 				
@@ -119,6 +128,8 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		 				
 		 		return globalUrlCount;
 	}
+	
+	@Override
 	public void addURLVisitCount(String shortUrl){		
 		 		/*		
 		 		 * get visit count from getVisitCountList in count variable		
@@ -138,6 +149,7 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		 		
 		  	}
 	
+	@Override
 	public String getoriLongURL(String shortUrl){
 		String SQL = "select longUrl from GlobalUrlDB where shortUrl =  (?)";
 		System.out.println("sql:"+SQL);
@@ -170,15 +182,8 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		
 
 	}
-
-
 	
-	public void getVisitCountList(){
-		
-	}
-	public void addURLVisitCount(){
-		
-	}
+	@Override
 	public String shortenUrl(String longUrl){
 		/*
 		 * 1. convert longUrl into 36 bit hash value

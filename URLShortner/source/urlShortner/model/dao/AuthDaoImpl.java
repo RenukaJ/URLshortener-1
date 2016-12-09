@@ -5,8 +5,11 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
+
 import model.dto.*;
 
+@Service
 public class AuthDaoImpl implements AuthDao{
 
 	private BasicDataSource dataSource;
@@ -17,6 +20,7 @@ public class AuthDaoImpl implements AuthDao{
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
 
+	@Override
 	public User loginUser(String username, String password){
 		String SQL = "select userid, password from Users where username = (?)";
 		Object[] params = new Object[] { username };
@@ -38,7 +42,7 @@ public class AuthDaoImpl implements AuthDao{
 	}
 
 
-
+	@Override
 	public boolean signupUsr(String username, String password){
 		String SQL = "insert into Users (username, password) values (?, ?)";
 		Object[] params = new Object[] { username, password };

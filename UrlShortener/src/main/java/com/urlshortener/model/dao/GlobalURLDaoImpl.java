@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +20,7 @@ import java.util.HashMap;
 import com.urlshortener.model.mapper.GlobalURLMapper;
 import com.urlshortener.model.mapper.LongUrlMapper;
 
-
+@Configuration
 public class GlobalURLDaoImpl implements GlobalURLDao{
 	private BasicDataSource dataSource;
 	private JdbcTemplate jdbcTemplateObject;
@@ -28,8 +30,6 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		this.dataSource = dataSource;
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
-
-	
 	public String addNewValueToGlobalURLList(String longUrl){
 		/*
 		 * 1. Process Method for getting new shortURL
@@ -119,6 +119,7 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		 				
 		 		return globalUrlCount;
 	}
+	
 	public void addURLVisitCount(String shortUrl){		
 		 		/*		
 		 		 * get visit count from getVisitCountList in count variable		
@@ -179,6 +180,7 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 	public void addURLVisitCount(){
 		
 	}
+	
 	public String shortenUrl(String longUrl){
 		/*
 		 * 1. convert longUrl into 36 bit hash value
@@ -192,7 +194,7 @@ public class GlobalURLDaoImpl implements GlobalURLDao{
 		return "http://localhost:8080/URLShortner/short/" +encodedUrl;
 	}
 
-
+	
 	@Override
 	public Boolean shortUrlexists(String shortUrl) {
 		// TODO Auto-generated method stub

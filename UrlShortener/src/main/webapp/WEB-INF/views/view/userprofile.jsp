@@ -1,7 +1,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.Iterator"%>
-<%@ page import="model.dto.UserUrl"%>
+<%@ page import="com.urlshortener.model.dto.UserUrl"%>
 
 <%
 	@SuppressWarnings("unchecked")

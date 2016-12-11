@@ -40,7 +40,7 @@ public class HomePageController {
 	}
 
 	@RequestMapping( method = RequestMethod.GET)
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	protected void getUserProfile(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{   
 		HttpSession session = request.getSession();
@@ -69,7 +69,7 @@ public class HomePageController {
 
 	
 	@RequestMapping( method = RequestMethod.POST)
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	protected void postUserProfile(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
 		HttpSession session = request.getSession();

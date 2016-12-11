@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,7 +15,7 @@ import com.urlshortener.model.dto.User;
 import com.urlshortener.model.dto.UserUrl;
 import com.urlshortener.model.mapper.UserMapper;
 import com.urlshortener.model.mapper.UserUrlMapper;
-
+@Configuration
 public class UserURLDaoImpl implements UserURLDao{
 	/*
 	 * This class contains the implementation for UserUrlDao Interface
@@ -26,7 +28,7 @@ public class UserURLDaoImpl implements UserURLDao{
 		this.dataSource = dataSource;
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
-
+	
 	public void addUrlToUserList(String username, String shortUrl, String longUrl){
 		/*
 		 * 1. Get user ID
@@ -58,6 +60,7 @@ public class UserURLDaoImpl implements UserURLDao{
 
 
 	}
+	
 	public void deleteUserListValue(String username, String urlToRemove){
 		/*
 		 * 1. Get user ID
@@ -87,7 +90,7 @@ public class UserURLDaoImpl implements UserURLDao{
 			return;
 		}
 	}
-
+	
 	public int getUserId(String username){
 		String SQL = "select userid from Users where username = (?)";
 		Object[] params = new Object[] { username };
@@ -108,7 +111,7 @@ public class UserURLDaoImpl implements UserURLDao{
 			return 0;
 		}
 	}
-
+	
 	public List<UserUrl> getUserUrlList(String username){
 		int userid = getUserId(username);
 		///////if-else for userid = 0
@@ -124,7 +127,7 @@ public class UserURLDaoImpl implements UserURLDao{
 			return null;
 		}
 	}
-
+	
 	public boolean checkIfUrlExistsForUser(int userid, String shortUrl){
 
 		String SQL = "select shortUrl from UserUrlList where userid = (?)";

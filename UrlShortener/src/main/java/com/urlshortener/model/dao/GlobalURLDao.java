@@ -1,10 +1,16 @@
 package com.urlshortener.model.dao;
 import java.util.List;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import java.util.HashMap;
 
 import com.urlshortener.model.dto.*;
 
+@Configuration
 public interface GlobalURLDao {
+	
 	public String addNewValueToGlobalURLList(String longUrl);
 	public UrlMappingList getshortURL(String longUrl);
 	public UrlMappingList getLongURL(String shortUrl);

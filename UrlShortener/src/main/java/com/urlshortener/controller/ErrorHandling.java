@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,16 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 /*
- * Unhandled requests will be redirected to this servlet
+ * Unhandled requests will be redirected to this controller
  */
-@WebServlet(
-		name = "errorHandlingServlet",
-		urlPatterns = "/errorPage"
-		)
 
-public class ErrorHandling extends HttpServlet{
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+@Controller
+@RequestMapping(ErrorHandling.Err_Base_URI)
+
+public class ErrorHandling{
+	
+	public static final String Err_Base_URI="/errorPage";
+	
+	@RequestMapping( method = RequestMethod.GET)
+	protected void getErr(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
 		/*
@@ -74,11 +77,11 @@ public class ErrorHandling extends HttpServlet{
 		request.getRequestDispatcher("/WEB-INF/jsp/errorPages/error404.jsp").forward(request, response);
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping( method = RequestMethod.POST)
+	protected void postErr(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
-		this.doGet(request, response);
+		this.getErr(request, response);
 
 	}
 }

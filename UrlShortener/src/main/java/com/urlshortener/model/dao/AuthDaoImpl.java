@@ -2,11 +2,14 @@ package com.urlshortener.model.dao;
 import com.urlshortener.model.mapper.*;
 import java.util.Map;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.urlshortener.model.dto.*;
 
+@Configuration
 public class AuthDaoImpl implements AuthDao{
 
 	private BasicDataSource dataSource;
@@ -16,7 +19,6 @@ public class AuthDaoImpl implements AuthDao{
 		this.dataSource = dataSource;
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
-
 	public User loginUser(String username, String password){
 		String SQL = "select userid, password from Users where username = (?)";
 		Object[] params = new Object[] { username };
@@ -36,8 +38,6 @@ public class AuthDaoImpl implements AuthDao{
 			return null;
 		}
 	}
-
-
 
 	public boolean signupUsr(String username, String password){
 		String SQL = "insert into Users (username, password) values (?, ?)";

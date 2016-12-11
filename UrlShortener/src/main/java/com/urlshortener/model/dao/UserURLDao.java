@@ -1,7 +1,11 @@
 package com.urlshortener.model.dao;
 import java.util.List;
 
+import org.springframework.context.annotation.Configuration;
+
 import com.urlshortener.model.dto.UserUrl;
+
+@Configuration
 public interface UserURLDao {
 	/*
 	 * This DAO will contain shortened URL List Per user

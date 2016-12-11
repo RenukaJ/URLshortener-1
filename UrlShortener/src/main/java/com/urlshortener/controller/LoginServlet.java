@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 
@@ -23,24 +25,21 @@ import com.urlshortener.model.dto.User;
  * This servlet handles requests and responses to/from the Home Page for SignUP/Login Requests
  */
 
-@WebServlet(
-		name = "loginServlet",
-		urlPatterns = "/login"
-		)
-
 @Controller
-public class LoginServlet extends HttpServlet
-{
+@RequestMapping(LoginServlet.login_Base_URI)
+public class LoginServlet
+{   public static final String login_Base_URI="/login";
 	//DBRequesthandler reqHandler = new DBRequesthandler();
 	@Autowired
 	private AuthDao authentication;
 
-	@Override
-	public void init(ServletConfig config) throws ServletException{
-		super.init(config);
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-
-	}
+	
+//	public void init(ServletConfig config) throws ServletException{
+//		super.init(config);
+//		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+//
+//	}
+	
 	public void setAuthentication(AuthDao authentication)
 	{
 		this.authentication = authentication;
@@ -49,8 +48,8 @@ public class LoginServlet extends HttpServlet
 	
 
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping( method = RequestMethod.GET)
+	protected void getLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
 		System.out.println("loginServlet");
@@ -76,8 +75,8 @@ public class LoginServlet extends HttpServlet
 
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping( method = RequestMethod.POST)
+	protected void postLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
 

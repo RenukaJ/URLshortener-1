@@ -14,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.urlshortener.model.dao.GlobalURLDao;
 import com.urlshortener.model.dao.UserURLDao;
@@ -22,29 +24,28 @@ import com.urlshortener.model.dto.UrlMappingList;
 /*
  * This servlet handles requests and responses for all responses for the domainname/short/* URL
  */
-@WebServlet(
-		name = "shortURLHandler",
-		urlPatterns = "/short/*"
-		)
+
 @Controller
-public class UrlRequesthandler extends HttpServlet{
+@RequestMapping(UrlRequesthandler.Url_Base_URI)
+public class UrlRequesthandler {
 
-
+	public static final String Url_Base_URI="/short/*";
+	
 	@Autowired
 	private GlobalURLDao globalurlDao;
 	
-	@Override
-	public void init(ServletConfig config) throws ServletException{
-		super.init(config);
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-
-	}
+//	@Override
+//	public void init(ServletConfig config) throws ServletException{
+//		super.init(config);
+//		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+//
+//	}
 	
 	public void setGlobalurlDao(GlobalURLDao globalurlDao){
 		this.globalurlDao = globalurlDao;
 	}
 	
-	@Override
+	@RequestMapping( method = RequestMethod.GET)
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException , IOException
 	{

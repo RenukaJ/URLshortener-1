@@ -18,33 +18,34 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 
 import com.urlshortener.model.dto.UserUrl;
 import com.urlshortener.model.dao.*;
 import com.urlshortener.model.dto.*;
-@WebServlet(
-		name = "UserProfileServlet",
-		urlPatterns = "/userprofile"
-		)
 
 /**************Check logout belongs to get or post**************/
-@Controller
-public class UserProfilePage extends HttpServlet{
 
+@Controller
+@RequestMapping(UserProfilePage.UserProfile_Base_URI)
+public class UserProfilePage {
+	
+	public static final String UserProfile_Base_URI="/userprofile";
 	//DBRequesthandler reqHandler = new DBRequesthandler();
 	@Autowired
 	private GlobalURLDao globalurlDao;
 	@Autowired
 	private UserURLDao userurlDao;
 	
-	@Override
-	public void init(ServletConfig config) throws ServletException{
-		super.init(config);
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-
-	}
+//	@Override
+//	public void init(ServletConfig config) throws ServletException{
+//		super.init(config);
+//		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+//
+//	}
 	
 	public void setGlobalurlDao(GlobalURLDao globalurlDao){
 		this.globalurlDao = globalurlDao;
@@ -53,8 +54,8 @@ public class UserProfilePage extends HttpServlet{
 		this.userurlDao = userurlDao;
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping( method = RequestMethod.GET)
+	protected void getUserProfile(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
 		HttpSession session = request.getSession();
@@ -95,8 +96,8 @@ public class UserProfilePage extends HttpServlet{
 		}
 	}
 
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	@RequestMapping( method = RequestMethod.POST)
+	protected void postUserProfile(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
 		HttpSession session = request.getSession();

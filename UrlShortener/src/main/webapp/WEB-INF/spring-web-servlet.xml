@@ -9,11 +9,12 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-    <context:component-scan base-package="com" />
+  
+    <context:component-scan base-package="com.urlshortener" />
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix">
-			<value>/WEB-INF/views/jsp/</value>
+			<value>/WEB-INF/view/</value>
 		</property>
 		<property name="suffix">
 			<value>.jsp</value>
